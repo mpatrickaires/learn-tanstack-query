@@ -16,15 +16,16 @@ import {
   Typography,
 } from '@mui/material';
 
-const darkTheme = createTheme({
+const theme = createTheme({
   palette: { mode: 'dark' },
+  typography: { fontSize: 16 },
 });
 
 const drawerWidth = 200;
 
 export const Route = createRootRoute({
   component: () => (
-    <ThemeProvider theme={darkTheme}>
+    <ThemeProvider theme={theme}>
       <CssBaseline />
       <Box display="flex">
         <AppBar
@@ -62,7 +63,7 @@ export const Route = createRootRoute({
             </List>
           </Box>
         </Drawer>
-        <Box component="main" flexGrow={1} px={3}>
+        <Box component="main" flexGrow={1} p={3}>
           <Toolbar />
           <Outlet />
         </Box>
