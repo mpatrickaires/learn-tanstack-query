@@ -1,26 +1,49 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
-import { api } from '../api';
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { api } from '../api';
 
 export const Route = createFileRoute('/manual-parallel-queries')({
   component: RouteComponent,
 });
 
 function RouteComponent() {
+  const [exampleKey, setExampleKey] = useState<number | null>(null);
+
+  return (
+    <Box>
+      <Box>
+        <Typography>
+          Each "name" endpoint takes approximately 1 second to return the
+          response. Since the queries run in parallel, the total time will be 1
+          second instead of 3 seconds.
+        </Typography>
+      </Box>
+      <hr />
+      <Button onClick={() => setExampleKey(Math.random())} variant="contained">
+        Run
+      </Button>
+      {exampleKey && <Example key={exampleKey} />}
+    </Box>
+  );
+}
+
+function Example() {
+  const key = useMemo(() => Math.random(), []);
+
   const { data: userName, isSuccess: isUserNameSuccess } = useQuery({
-    queryKey: ['user-name'],
+    queryKey: ['user-name', key],
     queryFn: () => api.get<string>(route('user-name')).then(r => r.data),
   });
 
   const { data: teamName, isSuccess: isTeamNameSuccess } = useQuery({
-    queryKey: ['team-name'],
+    queryKey: ['team-name', key],
     queryFn: () => api.get<string>(route('team-name')).then(r => r.data),
   });
 
   const { data: projectName, isSuccess: isProjectNameSuccess } = useQuery({
-    queryKey: ['project-name'],
+    queryKey: ['project-name', key],
     queryFn: () => api.get<string>(route('project-name')).then(r => r.data),
   });
 
@@ -51,20 +74,14 @@ function RouteComponent() {
 
   return (
     <Box>
-      <Box>
-        <Typography>
-          Each "name" endpoint takes approximately 1 second to return the
-          response. Since the queries run in parallel, the total time will be 1
-          second instead of 3 second.
-        </Typography>
-      </Box>
-      <hr />
-      <Box>
-        <Typography>Elapsed time: {elapsedTimeInSeconds} seconds</Typography>
-        <Typography>User name: {userName}</Typography>
-        <Typography>Team name: {teamName}</Typography>
-        <Typography>Project name: {projectName}</Typography>
-      </Box>
+      <Typography>Elapsed time: {elapsedTimeInSeconds} seconds</Typography>
+      {isSuccess && (
+        <>
+          <Typography>User name: {userName}</Typography>
+          <Typography>Team name: {teamName}</Typography>
+          <Typography>Project name: {projectName}</Typography>
+        </>
+      )}
     </Box>
   );
 }
