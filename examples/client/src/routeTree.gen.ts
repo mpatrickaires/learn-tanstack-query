@@ -9,8 +9,14 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ManualParallelQueriesRouteImport } from './routes/manual-parallel-queries'
 import { Route as IndexRouteImport } from './routes/index'
 
+const ManualParallelQueriesRoute = ManualParallelQueriesRouteImport.update({
+  id: '/manual-parallel-queries',
+  path: '/manual-parallel-queries',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
@@ -19,28 +25,39 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/manual-parallel-queries': typeof ManualParallelQueriesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/manual-parallel-queries': typeof ManualParallelQueriesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/manual-parallel-queries': typeof ManualParallelQueriesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/manual-parallel-queries'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/manual-parallel-queries'
+  id: '__root__' | '/' | '/manual-parallel-queries'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ManualParallelQueriesRoute: typeof ManualParallelQueriesRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/manual-parallel-queries': {
+      id: '/manual-parallel-queries'
+      path: '/manual-parallel-queries'
+      fullPath: '/manual-parallel-queries'
+      preLoaderRoute: typeof ManualParallelQueriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/': {
       id: '/'
       path: '/'
@@ -53,6 +70,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ManualParallelQueriesRoute: ManualParallelQueriesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
