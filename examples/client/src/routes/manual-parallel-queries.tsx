@@ -2,7 +2,9 @@ import { Box, Button, Typography } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { api } from '../api';
+import { buildApi } from '../api';
+
+const api = buildApi('/manual-parallel-queries');
 
 export const Route = createFileRoute('/manual-parallel-queries')({
   component: RouteComponent,
@@ -34,17 +36,17 @@ function Example() {
 
   const { data: userName, isSuccess: isUserNameSuccess } = useQuery({
     queryKey: ['user-name', key],
-    queryFn: () => api.get<string>(route('user-name')).then(r => r.data),
+    queryFn: () => api.get<string>('user-name').then(r => r.data),
   });
 
   const { data: teamName, isSuccess: isTeamNameSuccess } = useQuery({
     queryKey: ['team-name', key],
-    queryFn: () => api.get<string>(route('team-name')).then(r => r.data),
+    queryFn: () => api.get<string>('team-name').then(r => r.data),
   });
 
   const { data: projectName, isSuccess: isProjectNameSuccess } = useQuery({
     queryKey: ['project-name', key],
-    queryFn: () => api.get<string>(route('project-name')).then(r => r.data),
+    queryFn: () => api.get<string>('project-name').then(r => r.data),
   });
 
   const isSuccess =
@@ -84,8 +86,4 @@ function Example() {
       )}
     </Box>
   );
-}
-
-function route(path: string) {
-  return `/manual-parallel-queries/${path}`;
 }
