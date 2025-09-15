@@ -33,9 +33,10 @@ const theme = createTheme({
   },
 });
 
-const drawerWidth = 200;
+const drawerWidth = 300;
 
 const queryClient = new QueryClient({
+  // To guarantee that there's no cache between example runs
   defaultOptions: { queries: { gcTime: 0 } },
 });
 
@@ -78,6 +79,13 @@ export const Route = createRootRoute({
                   <Link to="/manual-parallel-queries">
                     <ListItemButton>
                       <ListItemText>Manual Parallel Queries</ListItemText>
+                    </ListItemButton>
+                  </Link>
+                </ListItem>
+                <ListItem>
+                  <Link to="/dynamic-parallel-queries">
+                    <ListItemButton>
+                      <ListItemText>Dynamic Parallel Queries</ListItemText>
                     </ListItemButton>
                   </Link>
                 </ListItem>

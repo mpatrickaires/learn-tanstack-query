@@ -1,8 +1,10 @@
-import { Box, Button, Typography } from '@mui/material';
+import { Box, Typography } from '@mui/material';
 import { useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo } from 'react';
 import { buildApi } from '../api';
+import { ExampleContainer } from '../components/ExampleContainer';
+import { useElapsedTime } from '../hooks/useElapsedTime';
 
 const api = buildApi('/manual-parallel-queries');
 
@@ -11,23 +13,14 @@ export const Route = createFileRoute('/manual-parallel-queries')({
 });
 
 function RouteComponent() {
-  const [exampleKey, setExampleKey] = useState<number | null>(null);
-
   return (
-    <Box>
-      <Box>
-        <Typography>
-          Each "name" endpoint takes approximately 1 second to return the
+    <ExampleContainer
+      description='Each "name" endpoint takes approximately 1 second to return the
           response. Since the queries run in parallel, the total time will be 1
-          second instead of 3 seconds.
-        </Typography>
-      </Box>
-      <hr />
-      <Button onClick={() => setExampleKey(Math.random())} variant="contained">
-        Run
-      </Button>
-      {exampleKey && <Example key={exampleKey} />}
-    </Box>
+          second instead of 3 seconds (useQuery).'
+    >
+      <Example />
+    </ExampleContainer>
   );
 }
 
@@ -52,27 +45,7 @@ function Example() {
   const isSuccess =
     isUserNameSuccess && isTeamNameSuccess && isProjectNameSuccess;
 
-  const startedAt = useMemo(() => new Date(), []);
-
-  const [elapsedTimeInSeconds, setElapsedTimeInSeconds] = useState<number>(0);
-
-  function setElapsedTime() {
-    const elapsedTime = new Date().getTime() - startedAt.getTime();
-    setElapsedTimeInSeconds(elapsedTime / 1000);
-  }
-
-  const elapsedTimeIntervalRef = useRef<NodeJS.Timeout | null>(null);
-  useEffect(() => {
-    if (!elapsedTimeIntervalRef.current) {
-      elapsedTimeIntervalRef.current = setInterval(setElapsedTime, 50);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (isSuccess && elapsedTimeIntervalRef.current) {
-      clearInterval(elapsedTimeIntervalRef.current);
-    }
-  }, [isSuccess]);
+  const { elapsedTimeInSeconds } = useElapsedTime(isSuccess);
 
   return (
     <Box>

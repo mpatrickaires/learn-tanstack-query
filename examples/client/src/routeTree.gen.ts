@@ -9,12 +9,24 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ParallelQueriesRouteImport } from './routes/parallel-queries'
 import { Route as ManualParallelQueriesRouteImport } from './routes/manual-parallel-queries'
+import { Route as DynamicParallelQueriesRouteImport } from './routes/dynamic-parallel-queries'
 import { Route as IndexRouteImport } from './routes/index'
 
+const ParallelQueriesRoute = ParallelQueriesRouteImport.update({
+  id: '/parallel-queries',
+  path: '/parallel-queries',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ManualParallelQueriesRoute = ManualParallelQueriesRouteImport.update({
   id: '/manual-parallel-queries',
   path: '/manual-parallel-queries',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DynamicParallelQueriesRoute = DynamicParallelQueriesRouteImport.update({
+  id: '/dynamic-parallel-queries',
+  path: '/dynamic-parallel-queries',
   getParentRoute: () => rootRouteImport,
 } as any)
 const IndexRoute = IndexRouteImport.update({
@@ -25,37 +37,72 @@ const IndexRoute = IndexRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/dynamic-parallel-queries': typeof DynamicParallelQueriesRoute
   '/manual-parallel-queries': typeof ManualParallelQueriesRoute
+  '/parallel-queries': typeof ParallelQueriesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/dynamic-parallel-queries': typeof DynamicParallelQueriesRoute
   '/manual-parallel-queries': typeof ManualParallelQueriesRoute
+  '/parallel-queries': typeof ParallelQueriesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/dynamic-parallel-queries': typeof DynamicParallelQueriesRoute
   '/manual-parallel-queries': typeof ManualParallelQueriesRoute
+  '/parallel-queries': typeof ParallelQueriesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/manual-parallel-queries'
+  fullPaths:
+    | '/'
+    | '/dynamic-parallel-queries'
+    | '/manual-parallel-queries'
+    | '/parallel-queries'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/manual-parallel-queries'
-  id: '__root__' | '/' | '/manual-parallel-queries'
+  to:
+    | '/'
+    | '/dynamic-parallel-queries'
+    | '/manual-parallel-queries'
+    | '/parallel-queries'
+  id:
+    | '__root__'
+    | '/'
+    | '/dynamic-parallel-queries'
+    | '/manual-parallel-queries'
+    | '/parallel-queries'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  DynamicParallelQueriesRoute: typeof DynamicParallelQueriesRoute
   ManualParallelQueriesRoute: typeof ManualParallelQueriesRoute
+  ParallelQueriesRoute: typeof ParallelQueriesRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/parallel-queries': {
+      id: '/parallel-queries'
+      path: '/parallel-queries'
+      fullPath: '/parallel-queries'
+      preLoaderRoute: typeof ParallelQueriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/manual-parallel-queries': {
       id: '/manual-parallel-queries'
       path: '/manual-parallel-queries'
       fullPath: '/manual-parallel-queries'
       preLoaderRoute: typeof ManualParallelQueriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dynamic-parallel-queries': {
+      id: '/dynamic-parallel-queries'
+      path: '/dynamic-parallel-queries'
+      fullPath: '/dynamic-parallel-queries'
+      preLoaderRoute: typeof DynamicParallelQueriesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/': {
@@ -70,7 +117,9 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  DynamicParallelQueriesRoute: DynamicParallelQueriesRoute,
   ManualParallelQueriesRoute: ManualParallelQueriesRoute,
+  ParallelQueriesRoute: ParallelQueriesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
