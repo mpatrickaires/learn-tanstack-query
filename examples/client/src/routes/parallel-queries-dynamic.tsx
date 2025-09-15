@@ -7,9 +7,9 @@ import { ExampleContainer } from '../components/ExampleContainer';
 import { useElapsedTime } from '../hooks/useElapsedTime';
 import { generateRandomNumbers } from '../utils';
 
-const api = buildApi('/dynamic-parallel-queries');
+const api = buildApi('/parallel-queries-dynamic');
 
-export const Route = createFileRoute('/dynamic-parallel-queries')({
+export const Route = createFileRoute('/parallel-queries-dynamic')({
   component: RouteComponent,
 });
 

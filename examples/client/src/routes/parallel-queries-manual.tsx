@@ -6,9 +6,9 @@ import { buildApi } from '../api';
 import { ExampleContainer } from '../components/ExampleContainer';
 import { useElapsedTime } from '../hooks/useElapsedTime';
 
-const api = buildApi('/manual-parallel-queries');
+const api = buildApi('/parallel-queries-manual');
 
-export const Route = createFileRoute('/manual-parallel-queries')({
+export const Route = createFileRoute('/parallel-queries-manual')({
   component: RouteComponent,
 });
 

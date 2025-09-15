@@ -9,15 +9,21 @@ export function ExampleContainer({ description, children }: Props) {
     <ExampleKeyProvider exampleKey={exampleKey}>
       <Box>
         <Box>
-          <Typography>{description}</Typography>
+          <Typography
+            lineHeight={1.5}
+            textAlign="justify"
+            whiteSpace="pre-line"
+          >
+            {description}
+          </Typography>
         </Box>
-        <hr />
         <Button
           onClick={() => setExampleKey(Math.random())}
           variant="contained"
         >
           Run
         </Button>
+        <hr />
         {exampleKey && <Box key={exampleKey}>{children}</Box>}
       </Box>
     </ExampleKeyProvider>
