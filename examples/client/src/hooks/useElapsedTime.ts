@@ -1,7 +1,13 @@
 import { useState, useRef, useEffect, useMemo } from 'react';
 
-export function useElapsedTime(clearCondition: boolean) {
-  const startedAt = useMemo(() => new Date(), []);
+export function useElapsedTime({
+  clearOn,
+  enabled = true,
+}: {
+  clearOn: boolean;
+  enabled?: boolean;
+}) {
+  const startedAt = useMemo(() => new Date(), [enabled]);
   const [elapsedTimeInSeconds, setElapsedTimeInSeconds] = useState<number>(0);
 
   function setElapsedTime() {
@@ -11,21 +17,21 @@ export function useElapsedTime(clearCondition: boolean) {
 
   const elapsedTimeIntervalRef = useRef<NodeJS.Timeout | null>(null);
   useEffect(() => {
-    if (!elapsedTimeIntervalRef.current) {
+    if (!elapsedTimeIntervalRef.current && enabled) {
       elapsedTimeIntervalRef.current = setInterval(setElapsedTime, 50);
     }
-  }, []);
+  }, [enabled]);
 
   useEffect(() => {
-    if (clearCondition && elapsedTimeIntervalRef.current) {
+    if (clearOn && elapsedTimeIntervalRef.current) {
       clearInterval(elapsedTimeIntervalRef.current);
     }
-  }, [clearCondition]);
+  }, [clearOn]);
 
   return {
-    elapsedTimeInSeconds: elapsedTimeInSeconds
+    elapsedTimeInSeconds: `${elapsedTimeInSeconds
       .toString()
       .padEnd(2, '.')
-      .padEnd(5, '0'),
+      .padEnd(5, '0')}s`,
   };
 }

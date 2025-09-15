@@ -89,6 +89,13 @@ export const Route = createRootRoute({
                     </ListItemButton>
                   </Link>
                 </ListItem>
+                <ListItem>
+                  <Link to="/deduping">
+                    <ListItemButton>
+                      <ListItemText>Deduping</ListItemText>
+                    </ListItemButton>
+                  </Link>
+                </ListItem>
               </List>
             </Box>
           </Drawer>

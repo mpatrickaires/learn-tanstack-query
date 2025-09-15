@@ -43,7 +43,7 @@ function Example() {
 
   return (
     <Box>
-      <Typography>Elapsed time: {elapsedTimeInSeconds} seconds</Typography>
+      <Typography>{elapsedTimeInSeconds}</Typography>
       {isSuccess && (
         <List>
           <Typography fontWeight="bold">Users</Typography>
