@@ -45,7 +45,7 @@ function Example() {
   const isSuccess =
     isUserNameSuccess && isTeamNameSuccess && isProjectNameSuccess;
 
-  const { elapsedTimeInSeconds } = useElapsedTime(isSuccess);
+  const { elapsedTimeInSeconds } = useElapsedTime({ clearOn: isSuccess });
 
   return (
     <Box>

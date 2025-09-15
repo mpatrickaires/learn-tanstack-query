@@ -39,7 +39,7 @@ function Example() {
 
   const isSuccess = userNameQueries.every(({ isSuccess }) => isSuccess);
 
-  const { elapsedTimeInSeconds } = useElapsedTime(isSuccess);
+  const { elapsedTimeInSeconds } = useElapsedTime({ clearOn: isSuccess });
 
   return (
     <Box>
