@@ -88,7 +88,7 @@ export const Route = createRootRoute({
               <Box overflow="auto">
                 <List>
                   {allPaths.map(path => (
-                    <ListItem>
+                    <ListItem key={path}>
                       <Link to={path}>
                         <ListItemButton>
                           <ListItemText>
