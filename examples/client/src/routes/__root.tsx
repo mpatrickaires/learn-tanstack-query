@@ -51,7 +51,6 @@ export const Route = createRootRoute({
     const allPaths: string[] = (flatRoutes.map(({ path }) => path) as string[])
       .filter(path => path !== '/')
       .sort();
-    console.log(allPaths);
 
     return (
       <QueryClientProvider client={queryClient}>
