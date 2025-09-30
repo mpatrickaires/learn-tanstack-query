@@ -13,6 +13,7 @@ export function ExampleContainer({ description, children }: Props) {
             lineHeight={1.5}
             textAlign="justify"
             whiteSpace="pre-line"
+            mb={2}
           >
             {description}
           </Typography>
