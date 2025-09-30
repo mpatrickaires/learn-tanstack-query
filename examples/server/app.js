@@ -4,6 +4,7 @@ import { router as parallelQueriesManualRouter } from './routes/parallel-queries
 import { router as parallelQueriesDynamicRouter } from './routes/parallel-queries-dynamic.js';
 import { router as dedupingRouter } from './routes/deduping.js';
 import { router as backgroundFetchingIndicator } from './routes/background-fetching-indicators.js';
+import { router as queryRetries } from './routes/query-retries.js';
 
 const app = express();
 
@@ -13,5 +14,6 @@ app.use('/parallel-queries-manual', parallelQueriesManualRouter);
 app.use('/parallel-queries-dynamic', parallelQueriesDynamicRouter);
 app.use('/deduping', dedupingRouter);
 app.use('/background-fetching-indicators', backgroundFetchingIndicator);
+app.use('/query-retries', queryRetries);
 
 app.listen(5000, () => console.log('Server running'));
