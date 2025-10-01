@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as QueryRetriesRouteImport } from './routes/query-retries'
 import { Route as ParallelQueriesManualRouteImport } from './routes/parallel-queries-manual'
 import { Route as ParallelQueriesDynamicRouteImport } from './routes/parallel-queries-dynamic'
+import { Route as PaginatedQueriesRouteImport } from './routes/paginated-queries'
 import { Route as FetchingIndicatorsRouteImport } from './routes/fetching-indicators'
 import { Route as DedupingRouteImport } from './routes/deduping'
 import { Route as IndexRouteImport } from './routes/index'
@@ -29,6 +30,11 @@ const ParallelQueriesManualRoute = ParallelQueriesManualRouteImport.update({
 const ParallelQueriesDynamicRoute = ParallelQueriesDynamicRouteImport.update({
   id: '/parallel-queries-dynamic',
   path: '/parallel-queries-dynamic',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PaginatedQueriesRoute = PaginatedQueriesRouteImport.update({
+  id: '/paginated-queries',
+  path: '/paginated-queries',
   getParentRoute: () => rootRouteImport,
 } as any)
 const FetchingIndicatorsRoute = FetchingIndicatorsRouteImport.update({
@@ -51,6 +57,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/deduping': typeof DedupingRoute
   '/fetching-indicators': typeof FetchingIndicatorsRoute
+  '/paginated-queries': typeof PaginatedQueriesRoute
   '/parallel-queries-dynamic': typeof ParallelQueriesDynamicRoute
   '/parallel-queries-manual': typeof ParallelQueriesManualRoute
   '/query-retries': typeof QueryRetriesRoute
@@ -59,6 +66,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/deduping': typeof DedupingRoute
   '/fetching-indicators': typeof FetchingIndicatorsRoute
+  '/paginated-queries': typeof PaginatedQueriesRoute
   '/parallel-queries-dynamic': typeof ParallelQueriesDynamicRoute
   '/parallel-queries-manual': typeof ParallelQueriesManualRoute
   '/query-retries': typeof QueryRetriesRoute
@@ -68,6 +76,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/deduping': typeof DedupingRoute
   '/fetching-indicators': typeof FetchingIndicatorsRoute
+  '/paginated-queries': typeof PaginatedQueriesRoute
   '/parallel-queries-dynamic': typeof ParallelQueriesDynamicRoute
   '/parallel-queries-manual': typeof ParallelQueriesManualRoute
   '/query-retries': typeof QueryRetriesRoute
@@ -78,6 +87,7 @@ export interface FileRouteTypes {
     | '/'
     | '/deduping'
     | '/fetching-indicators'
+    | '/paginated-queries'
     | '/parallel-queries-dynamic'
     | '/parallel-queries-manual'
     | '/query-retries'
@@ -86,6 +96,7 @@ export interface FileRouteTypes {
     | '/'
     | '/deduping'
     | '/fetching-indicators'
+    | '/paginated-queries'
     | '/parallel-queries-dynamic'
     | '/parallel-queries-manual'
     | '/query-retries'
@@ -94,6 +105,7 @@ export interface FileRouteTypes {
     | '/'
     | '/deduping'
     | '/fetching-indicators'
+    | '/paginated-queries'
     | '/parallel-queries-dynamic'
     | '/parallel-queries-manual'
     | '/query-retries'
@@ -103,6 +115,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DedupingRoute: typeof DedupingRoute
   FetchingIndicatorsRoute: typeof FetchingIndicatorsRoute
+  PaginatedQueriesRoute: typeof PaginatedQueriesRoute
   ParallelQueriesDynamicRoute: typeof ParallelQueriesDynamicRoute
   ParallelQueriesManualRoute: typeof ParallelQueriesManualRoute
   QueryRetriesRoute: typeof QueryRetriesRoute
@@ -129,6 +142,13 @@ declare module '@tanstack/react-router' {
       path: '/parallel-queries-dynamic'
       fullPath: '/parallel-queries-dynamic'
       preLoaderRoute: typeof ParallelQueriesDynamicRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/paginated-queries': {
+      id: '/paginated-queries'
+      path: '/paginated-queries'
+      fullPath: '/paginated-queries'
+      preLoaderRoute: typeof PaginatedQueriesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/fetching-indicators': {
@@ -159,6 +179,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DedupingRoute: DedupingRoute,
   FetchingIndicatorsRoute: FetchingIndicatorsRoute,
+  PaginatedQueriesRoute: PaginatedQueriesRoute,
   ParallelQueriesDynamicRoute: ParallelQueriesDynamicRoute,
   ParallelQueriesManualRoute: ParallelQueriesManualRoute,
   QueryRetriesRoute: QueryRetriesRoute,
