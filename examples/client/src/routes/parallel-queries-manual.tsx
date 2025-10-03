@@ -18,6 +18,7 @@ function RouteComponent() {
       description='Each "name" endpoint takes approximately 1 second to return the
           response. Since the queries run in parallel, the total time will be 1
           second instead of 3 seconds (useQuery).'
+      docsUrl="https://tanstack.com/query/latest/docs/framework/react/guides/parallel-queries#manual-parallel-queries"
     >
       <Example />
     </ExampleContainer>

@@ -14,7 +14,10 @@ export const Route = createFileRoute('/query-retries')({
 
 function RouteComponent() {
   return (
-    <ExampleContainer description="The queries are retried 3 times by default when the query fails (query function throws an error). The retry delay, by default, is set to double with each attempt.">
+    <ExampleContainer
+      description="The queries are retried 3 times by default when the query fails (query function throws an error). The retry delay, by default, is set to double with each attempt."
+      docsUrl="https://tanstack.com/query/latest/docs/framework/react/guides/query-retries"
+    >
       <Example />
     </ExampleContainer>
   );

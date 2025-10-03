@@ -1,16 +1,15 @@
-import { createFileRoute } from '@tanstack/react-router';
-import { buildApi } from '../api';
-import { ExampleContainer } from '../components/ExampleContainer';
+import { Box, Button, List, ListItem, Typography } from '@mui/material';
 import {
   keepPreviousData,
-  queryOptions,
   useQuery,
   useQueryClient,
 } from '@tanstack/react-query';
+import { createFileRoute } from '@tanstack/react-router';
 import { useEffect, useState, type Dispatch, type SetStateAction } from 'react';
-import { Box, Button, List, ListItem, Typography } from '@mui/material';
-import { minutesToMs } from '../utils';
+import { buildApi } from '../api';
+import { ExampleContainer } from '../components/ExampleContainer';
 import { useExampleKey } from '../contexts/exampleKeyContext';
+import { minutesToMs } from '../utils';
 
 const api = buildApi('/paginated-queries');
 
@@ -45,6 +44,7 @@ function RouteComponent() {
     This can be improved by using the 'placeholderData' with 'keepPreviousData' to keep the data of the previous page in the next query, which prevents the hard loading (the state is now 'success') and automatically triggers a refetch to update this data. In a nutshell, this makes the next page show the data of the current one.
     
     In another point, notice how going to a previous page triggers a refetch. This is because the stale time is zero, and by changing pages we are destroying and creating new queries, which triggers a refetch.`}
+      docsUrl="https://tanstack.com/query/v5/docs/framework/react/guides/paginated-queries"
     >
       <Example />
     </ExampleContainer>

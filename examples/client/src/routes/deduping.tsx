@@ -15,7 +15,10 @@ export const Route = createFileRoute('/deduping')({
 
 function RouteComponent() {
   return (
-    <ExampleContainer description="There are three components that call the same endpoint. Since they are using exactly the same query key for their calls, the request gets deduped, which means that instead of three requests being sent, only one is sent. Even though the delayed component starts 500ms later, the request is still going, so it will also get deduped (which you can observe by the response for it taking only ~500ms, because the request is already in progress).">
+    <ExampleContainer
+      description="There are three components that call the same endpoint. Since they are using exactly the same query key for their calls, the request gets deduped, which means that instead of three requests being sent, only one is sent. Even though the delayed component starts 500ms later, the request is still going, so it will also get deduped (which you can observe by the response for it taking only ~500ms, because the request is already in progress)."
+      docsUrl="https://tanstack.com/query/latest/docs/framework/react/overview#motivation"
+    >
       <>
         <ExampleFirstComponent />
         <hr />
