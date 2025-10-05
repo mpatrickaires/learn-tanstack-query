@@ -7,7 +7,7 @@ import {
 import { createFileRoute } from '@tanstack/react-router';
 import { useEffect, useState, type Dispatch, type SetStateAction } from 'react';
 import { buildApi } from '../api';
-import { ExampleContainer } from '../components/ExampleContainer';
+import { ExampleContainer } from '../components/example/ExampleContainer';
 import { useExampleKey } from '../contexts/exampleKeyContext';
 import { minutesToMs } from '../utils';
 

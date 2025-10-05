@@ -3,7 +3,7 @@ import { useInfiniteQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 import { useRef } from 'react';
 import { buildApi } from '../api';
-import { ExampleContainer } from '../components/ExampleContainer';
+import { TabExampleContainer } from '../components/example/TabExampleContainer';
 import { useExampleKey } from '../contexts/exampleKeyContext';
 import { useOnScroll } from '../hooks/useOnScroll';
 

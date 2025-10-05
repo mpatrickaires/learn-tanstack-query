@@ -3,7 +3,7 @@ import { buildApi } from '../api';
 import { useQuery } from '@tanstack/react-query';
 import { useExampleKey } from '../contexts/exampleKeyContext';
 import { Button, Typography } from '@mui/material';
-import { ExampleContainer } from '../components/ExampleContainer';
+import { ExampleContainer } from '../components/example/ExampleContainer';
 
 const api = buildApi('/background-fetching-indicators');
 

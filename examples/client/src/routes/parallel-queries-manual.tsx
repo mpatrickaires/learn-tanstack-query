@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 import { useMemo } from 'react';
 import { buildApi } from '../api';
-import { ExampleContainer } from '../components/ExampleContainer';
+import { ExampleContainer } from '../components/example/ExampleContainer';
 import { useElapsedTime } from '../hooks/useElapsedTime';
 
 const api = buildApi('/parallel-queries-manual');

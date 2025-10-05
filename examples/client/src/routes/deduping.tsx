@@ -3,7 +3,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { buildApi } from '../api';
 import { Box, Typography } from '@mui/material';
 import { useElapsedTime } from '../hooks/useElapsedTime';
-import { ExampleContainer } from '../components/ExampleContainer';
+import { ExampleContainer } from '../components/example/ExampleContainer';
 import { useExampleKey } from '../contexts/exampleKeyContext';
 import { useEffect, useState } from 'react';
 

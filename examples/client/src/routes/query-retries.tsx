@@ -3,7 +3,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { buildApi } from '../api';
 import { useExampleKey } from '../contexts/exampleKeyContext';
 import { useState } from 'react';
-import { ExampleContainer } from '../components/ExampleContainer';
+import { ExampleContainer } from '../components/example/ExampleContainer';
 import { Typography } from '@mui/material';
 
 const api = buildApi('/query-retries');
