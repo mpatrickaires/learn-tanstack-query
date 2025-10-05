@@ -1,0 +1,48 @@
+import type { JSX } from '@emotion/react/jsx-runtime';
+import { Box, Tab, Tabs } from '@mui/material';
+import { useMemo, useState } from 'react';
+import { ExampleDescription } from './ExampleDescription';
+import { ExampleRun } from './ExampleRun';
+import { ExampleTitle } from './ExampleTitle';
+
+export function TabExampleContainer({ tabs, docsUrl }: Props) {
+  const [tabValue, setTabValue] = useState(0);
+
+  return (
+    <Box>
+      <ExampleTitle docsUrl={docsUrl} />
+      <Tabs onChange={(_, value) => setTabValue(value)}>
+        {tabs.map(({ label }, i) => (
+          <Tab label={label} value={i} key={label} />
+        ))}
+      </Tabs>
+      <TabRender tabs={tabs} tabValue={tabValue} />
+    </Box>
+  );
+}
+
+function TabRender({
+  tabs,
+  tabValue,
+}: Pick<Props, 'tabs'> & { tabValue: number }) {
+  const tab = useMemo(() => tabs[tabValue], [tabs, tabValue]);
+  if (!tab) {
+    throw new Error(`No tab found for tabValue '${tabValue}'`);
+  }
+
+  return (
+    <>
+      <ExampleDescription description={tab.description} />
+      <ExampleRun>{tab.component}</ExampleRun>
+    </>
+  );
+}
+
+type Props = {
+  tabs: Array<{
+    label: string;
+    description: string;
+    component: JSX.Element;
+  }>;
+  docsUrl: string;
+};
