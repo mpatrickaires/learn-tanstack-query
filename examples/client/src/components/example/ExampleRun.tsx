@@ -1,6 +1,6 @@
 import { Box, Button } from '@mui/material';
 import { useState, type PropsWithChildren } from 'react';
-import { ExampleKeyProvider } from '../contexts/exampleKeyContext';
+import { ExampleKeyProvider } from '../../contexts/exampleKeyContext';
 
 export function ExampleRun({ children }: Props) {
   const [exampleKey, setExampleKey] = useState<number | null>(null);
