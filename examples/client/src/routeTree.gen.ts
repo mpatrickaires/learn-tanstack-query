@@ -13,6 +13,7 @@ import { Route as QueryRetriesRouteImport } from './routes/query-retries'
 import { Route as ParallelQueriesManualRouteImport } from './routes/parallel-queries-manual'
 import { Route as ParallelQueriesDynamicRouteImport } from './routes/parallel-queries-dynamic'
 import { Route as PaginatedQueriesRouteImport } from './routes/paginated-queries'
+import { Route as InfiniteQueriesRouteImport } from './routes/infinite-queries'
 import { Route as FetchingIndicatorsRouteImport } from './routes/fetching-indicators'
 import { Route as DedupingRouteImport } from './routes/deduping'
 import { Route as IndexRouteImport } from './routes/index'
@@ -37,6 +38,11 @@ const PaginatedQueriesRoute = PaginatedQueriesRouteImport.update({
   path: '/paginated-queries',
   getParentRoute: () => rootRouteImport,
 } as any)
+const InfiniteQueriesRoute = InfiniteQueriesRouteImport.update({
+  id: '/infinite-queries',
+  path: '/infinite-queries',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const FetchingIndicatorsRoute = FetchingIndicatorsRouteImport.update({
   id: '/fetching-indicators',
   path: '/fetching-indicators',
@@ -57,6 +63,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/deduping': typeof DedupingRoute
   '/fetching-indicators': typeof FetchingIndicatorsRoute
+  '/infinite-queries': typeof InfiniteQueriesRoute
   '/paginated-queries': typeof PaginatedQueriesRoute
   '/parallel-queries-dynamic': typeof ParallelQueriesDynamicRoute
   '/parallel-queries-manual': typeof ParallelQueriesManualRoute
@@ -66,6 +73,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/deduping': typeof DedupingRoute
   '/fetching-indicators': typeof FetchingIndicatorsRoute
+  '/infinite-queries': typeof InfiniteQueriesRoute
   '/paginated-queries': typeof PaginatedQueriesRoute
   '/parallel-queries-dynamic': typeof ParallelQueriesDynamicRoute
   '/parallel-queries-manual': typeof ParallelQueriesManualRoute
@@ -76,6 +84,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/deduping': typeof DedupingRoute
   '/fetching-indicators': typeof FetchingIndicatorsRoute
+  '/infinite-queries': typeof InfiniteQueriesRoute
   '/paginated-queries': typeof PaginatedQueriesRoute
   '/parallel-queries-dynamic': typeof ParallelQueriesDynamicRoute
   '/parallel-queries-manual': typeof ParallelQueriesManualRoute
@@ -87,6 +96,7 @@ export interface FileRouteTypes {
     | '/'
     | '/deduping'
     | '/fetching-indicators'
+    | '/infinite-queries'
     | '/paginated-queries'
     | '/parallel-queries-dynamic'
     | '/parallel-queries-manual'
@@ -96,6 +106,7 @@ export interface FileRouteTypes {
     | '/'
     | '/deduping'
     | '/fetching-indicators'
+    | '/infinite-queries'
     | '/paginated-queries'
     | '/parallel-queries-dynamic'
     | '/parallel-queries-manual'
@@ -105,6 +116,7 @@ export interface FileRouteTypes {
     | '/'
     | '/deduping'
     | '/fetching-indicators'
+    | '/infinite-queries'
     | '/paginated-queries'
     | '/parallel-queries-dynamic'
     | '/parallel-queries-manual'
@@ -115,6 +127,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   DedupingRoute: typeof DedupingRoute
   FetchingIndicatorsRoute: typeof FetchingIndicatorsRoute
+  InfiniteQueriesRoute: typeof InfiniteQueriesRoute
   PaginatedQueriesRoute: typeof PaginatedQueriesRoute
   ParallelQueriesDynamicRoute: typeof ParallelQueriesDynamicRoute
   ParallelQueriesManualRoute: typeof ParallelQueriesManualRoute
@@ -151,6 +164,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PaginatedQueriesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/infinite-queries': {
+      id: '/infinite-queries'
+      path: '/infinite-queries'
+      fullPath: '/infinite-queries'
+      preLoaderRoute: typeof InfiniteQueriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/fetching-indicators': {
       id: '/fetching-indicators'
       path: '/fetching-indicators'
@@ -179,6 +199,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   DedupingRoute: DedupingRoute,
   FetchingIndicatorsRoute: FetchingIndicatorsRoute,
+  InfiniteQueriesRoute: InfiniteQueriesRoute,
   PaginatedQueriesRoute: PaginatedQueriesRoute,
   ParallelQueriesDynamicRoute: ParallelQueriesDynamicRoute,
   ParallelQueriesManualRoute: ParallelQueriesManualRoute,

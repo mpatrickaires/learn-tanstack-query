@@ -6,6 +6,7 @@ import { router as dedupingRouter } from './routes/deduping.js';
 import { router as backgroundFetchingIndicator } from './routes/background-fetching-indicators.js';
 import { router as queryRetries } from './routes/query-retries.js';
 import { router as paginatedQueries } from './routes/paginated-queries.js';
+import { router as infiniteQueries } from './routes/infinite-queries.js';
 
 const app = express();
 
@@ -29,5 +30,6 @@ app.use('/deduping', dedupingRouter);
 app.use('/background-fetching-indicators', backgroundFetchingIndicator);
 app.use('/query-retries', queryRetries);
 app.use('/paginated-queries', paginatedQueries);
+app.use('/infinite-queries', infiniteQueries);
 
 app.listen(5000, () => console.log('Server running'));
