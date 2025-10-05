@@ -10,6 +10,7 @@ import { buildApi } from '../api';
 import { ExampleContainer } from '../components/example/ExampleContainer';
 import { useExampleKey } from '../contexts/exampleKeyContext';
 import { minutesToMs } from '../utils';
+import { VerticalSeparator } from '../components/VerticalSeparator';
 
 const api = buildApi('/paginated-queries');
 
@@ -84,7 +85,7 @@ function Example() {
       </Box>
       <Box display="flex" gap={2}>
         <PaginationExample usePlaceholderData={true} page={page} />
-        <Box borderLeft="1px solid gray" />
+        <VerticalSeparator />
         <PaginationExample usePlaceholderData={false} page={page} />
       </Box>
     </>
