@@ -10,8 +10,7 @@ export function arrayWithNumbers(amount, startWith = 1) {
 export async function buildPaginatedResult(page, amount = 5) {
   page = Number(page);
 
-  // To load first page faster
-  await sleep(page === 1 ? 0.5 : 1);
+  await sleep(1);
 
   let startWith = 0;
   switch (page) {
