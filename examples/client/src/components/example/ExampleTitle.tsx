@@ -1,9 +1,9 @@
 import { Typography } from '@mui/material';
+import { useLocation } from '@tanstack/react-router';
 
 export function ExampleTitle({ docsUrl }: Props) {
-  const pageName = window.location.pathname
-    .replaceAll('/', '')
-    .replaceAll('-', ' ');
+  const location = useLocation();
+  const pageName = location.pathname.replaceAll('/', '').replaceAll('-', ' ');
 
   return (
     <Typography
