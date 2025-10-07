@@ -14,7 +14,7 @@ import {
 } from '@mui/material';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { Link, Outlet, useRouter } from '@tanstack/react-router';
+import { Link, Outlet, useLocation, useRouter } from '@tanstack/react-router';
 import tanStackQueryLogo from '/tanstack-query-logo.png';
 
 const theme = createTheme({
@@ -41,6 +41,8 @@ const queryClient = new QueryClient({
 
 export const Root = () => {
   const { flatRoutes } = useRouter();
+  const location = useLocation();
+
   const allPaths: string[] = (flatRoutes.map(({ path }) => path) as string[])
     .filter(path => path !== '/')
     .sort();
@@ -82,7 +84,9 @@ export const Root = () => {
                 {allPaths.map(path => (
                   <ListItem key={path}>
                     <Link to={path}>
-                      <ListItemButton>
+                      <ListItemButton
+                        selected={location.pathname === `/${path}`}
+                      >
                         <ListItemText>
                           <Typography textTransform="capitalize">
                             {path.replaceAll('-', ' ')}
