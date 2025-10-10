@@ -7,7 +7,7 @@ import {
 import { createFileRoute } from '@tanstack/react-router';
 import { useEffect, useRef, useState } from 'react';
 import { buildApi } from '../api';
-import { TabExampleContainer } from '../components/example/TabExampleContainer';
+import { ExampleHeaderTab } from '../components/example/ExampleHeaderTab';
 import { VerticalSeparator } from '../components/VerticalSeparator';
 import { useExampleKey } from '../contexts/exampleKeyContext';
 import { useOnScroll } from '../hooks/useOnScroll';
@@ -20,7 +20,7 @@ export const Route = createFileRoute('/infinite-queries')({
 
 function RouteComponent() {
   return (
-    <TabExampleContainer
+    <ExampleHeaderTab
       tabs={[
         {
           label: 'Cancel Refetch',

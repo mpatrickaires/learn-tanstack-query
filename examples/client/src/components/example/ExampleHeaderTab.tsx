@@ -5,7 +5,7 @@ import { ExampleDescription } from './ExampleDescription';
 import { ExampleRun } from './ExampleRun';
 import { ExampleTitle } from './ExampleTitle';
 
-export function TabExampleContainer({ tabs, docsUrl }: Props) {
+export function ExampleHeaderTab({ tabs, docsUrl }: Props) {
   const [tabValue, setTabValue] = useState(0);
 
   return (
