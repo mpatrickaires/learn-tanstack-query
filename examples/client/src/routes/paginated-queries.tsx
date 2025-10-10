@@ -7,7 +7,7 @@ import {
 import { createFileRoute } from '@tanstack/react-router';
 import { useEffect, useState, type Dispatch, type SetStateAction } from 'react';
 import { buildApi } from '../api';
-import { ExampleContainer } from '../components/example/ExampleContainer';
+import { ExampleHeader } from '../components/example/ExampleHeader';
 import { useExampleKey } from '../contexts/exampleKeyContext';
 import { minutesToMs } from '../utils';
 import { VerticalSeparator } from '../components/VerticalSeparator';
@@ -40,7 +40,7 @@ export const Route = createFileRoute('/paginated-queries')({
 
 function RouteComponent() {
   return (
-    <ExampleContainer
+    <ExampleHeader
       description={`With pagination, considering that we are passing the page number into the query key (which is the correct behavior), each page represent a new query, which makes it jump between the 'success' and 'pending' states when going to the next page, which makes a hard loading state show.
     This can be improved by using the 'placeholderData' with 'keepPreviousData' to keep the data of the previous page in the next query, which prevents the hard loading (the state is now 'success') and automatically triggers a refetch to update this data. In a nutshell, this makes the next page show the data of the current one.
     
@@ -48,7 +48,7 @@ function RouteComponent() {
       docsUrl="https://tanstack.com/query/v5/docs/framework/react/guides/paginated-queries"
     >
       <Example />
-    </ExampleContainer>
+    </ExampleHeader>
   );
 }
 

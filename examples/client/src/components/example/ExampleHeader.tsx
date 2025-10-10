@@ -4,7 +4,7 @@ import { ExampleDescription } from './ExampleDescription';
 import { ExampleRun } from './ExampleRun';
 import { ExampleTitle } from './ExampleTitle';
 
-export function ExampleContainer({ description, docsUrl, children }: Props) {
+export function ExampleHeader({ description, docsUrl, children }: Props) {
   return (
     <Box>
       <ExampleTitle docsUrl={docsUrl} />

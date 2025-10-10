@@ -3,7 +3,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { buildApi } from '../api';
 import { useExampleKey } from '../contexts/exampleKeyContext';
 import { useState } from 'react';
-import { ExampleContainer } from '../components/example/ExampleContainer';
+import { ExampleHeader } from '../components/example/ExampleHeader';
 import { Typography } from '@mui/material';
 
 const api = buildApi('/query-retries');
@@ -14,12 +14,12 @@ export const Route = createFileRoute('/query-retries')({
 
 function RouteComponent() {
   return (
-    <ExampleContainer
+    <ExampleHeader
       description="The queries are retried 3 times by default when the query fails (query function throws an error). The retry delay, by default, is set to double with each attempt."
       docsUrl="https://tanstack.com/query/latest/docs/framework/react/guides/query-retries"
     >
       <Example />
-    </ExampleContainer>
+    </ExampleHeader>
   );
 }
 

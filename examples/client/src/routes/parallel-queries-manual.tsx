@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 import { useMemo } from 'react';
 import { buildApi } from '../api';
-import { ExampleContainer } from '../components/example/ExampleContainer';
+import { ExampleHeader } from '../components/example/ExampleHeader';
 import { useElapsedTime } from '../hooks/useElapsedTime';
 
 const api = buildApi('/parallel-queries-manual');
@@ -14,14 +14,14 @@ export const Route = createFileRoute('/parallel-queries-manual')({
 
 function RouteComponent() {
   return (
-    <ExampleContainer
+    <ExampleHeader
       description='Each "name" endpoint takes approximately 1 second to return the
           response. Since the queries run in parallel, the total time will be 1
           second instead of 3 seconds (useQuery).'
       docsUrl="https://tanstack.com/query/latest/docs/framework/react/guides/parallel-queries#manual-parallel-queries"
     >
       <Example />
-    </ExampleContainer>
+    </ExampleHeader>
   );
 }
 
