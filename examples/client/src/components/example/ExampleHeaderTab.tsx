@@ -33,7 +33,7 @@ function TabRender({
   return (
     <Box mt={2}>
       <ExampleDescription description={tab.description} />
-      <ExampleRun>{tab.component}</ExampleRun>
+      <ExampleRun>{tab.render}</ExampleRun>
     </Box>
   );
 }
@@ -42,7 +42,7 @@ type Props = {
   tabs: Array<{
     label: string;
     description: string;
-    component: JSX.Element;
+    render: JSX.Element;
   }>;
   docsUrl: string;
 };

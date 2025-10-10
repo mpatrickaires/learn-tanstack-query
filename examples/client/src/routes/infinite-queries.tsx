@@ -26,25 +26,25 @@ function RouteComponent() {
           label: 'Cancel Refetch',
           description:
             "`cancelRefetch` has a default value of `true`. Setting it to `false` prevents a `fetchNextPage` call to trigger a fetch while another is going in the background. In the examples below, if you repeatedly scroll up and down at the bottom, many ongoing refetch can happen in the example 'cancelRefetch = true' whereas only one happen in the 'cancelRefetch = false' (you can also check this by opening the Network tab of DevTools).",
-          component: <CancelRefetchExample />,
+          render: <CancelRefetchExample />,
         },
         {
           label: 'Sequential Refetch',
           description:
             'A stale infinite query will refetch sequentially, starting from the first page. In the example below, only 3 pages are fetched, and once the query becomes stale (immediately by default), when a refetch is triggered the pages will be refetched sequentially, as can be seen by the indicator and in the Network tab of DevTools.',
-          component: <SequentialRefetchExample />,
+          render: <SequentialRefetchExample />,
         },
         {
           label: 'Max Pages',
           description: `By passing \`maxPages\`, the query data will be limited to the given value, removing the smallest page number. 
           For the following example, the \`maxPages\` is 3, which means that when reaching page 4, the page 1 will be removed, and so go on. This can be checked by scrolling up.`,
-          component: <MaxPagesExample />,
+          render: <MaxPagesExample />,
         },
         {
           label: 'Fetch Previous Page',
           description:
             "With `maxPage` set, passing a value to `getPreviousPageParam` can be used to tell if there's a previous page and fetch it if the user scrolls to the top, as can be done in the example below, where `maxPages` is 3.",
-          component: <FetchPreviousPageExample />,
+          render: <FetchPreviousPageExample />,
         },
       ]}
       docsUrl="https://tanstack.com/query/latest/docs/framework/react/guides/infinite-queries"
