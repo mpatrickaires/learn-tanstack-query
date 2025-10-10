@@ -40,6 +40,12 @@ function RouteComponent() {
           For the following example, the \`maxPages\` is 3, which means that when reaching page 4, the page 1 will be removed, and so go on. This can be checked by scrolling up.`,
           component: <MaxPagesExample />,
         },
+        {
+          label: 'Fetch Previous Page',
+          description:
+            "With `maxPage` set, passing a value to `getPreviousPageParam` can be used to tell if there's a previous page and fetch it if the user scrolls to the top, as can be done in the example below, where `maxPages` is 3.",
+          component: <FetchPreviousPageExample />,
+        },
       ]}
       docsUrl="https://tanstack.com/query/latest/docs/framework/react/guides/infinite-queries"
     />
@@ -166,7 +172,7 @@ function MaxPagesExample() {
   const query = useInfiniteQuery({
     queryKey: ['infiniteQueries', 'maxPages', exampleKey],
     queryFn: ({ pageParam }) =>
-      api.get(`/max-pages/${pageParam}`).then(r => r.data),
+      api.get<ApiData>(`/max-pages/${pageParam}`).then(r => r.data),
     maxPages: 3,
     initialPageParam: 1,
     getNextPageParam: (_lastPage, _allPages, lastPageParam) => {
@@ -177,8 +183,38 @@ function MaxPagesExample() {
   return <InfiniteScroll query={query} cancelRefetch={false} />;
 }
 
+function FetchPreviousPageExample() {
+  const exampleKey = useExampleKey();
+
+  const query = useInfiniteQuery({
+    queryKey: ['infiniteQueries', 'fetchPreviousPage', exampleKey],
+    queryFn: ({ pageParam }) =>
+      api.get<ApiData>(`/fetch-previous-page/${pageParam}`).then(r => r.data),
+    maxPages: 3,
+    initialPageParam: 1,
+    getNextPageParam: (_lastPage, _allPages, lastPageParam) =>
+      lastPageParam + 1,
+    getPreviousPageParam: firstPage => {
+      if (firstPage.page === 1) {
+        return undefined;
+      }
+      return firstPage.page - 1;
+    },
+  });
+
+  return <InfiniteScroll query={query} cancelRefetch={false} />;
+}
+
 function InfiniteScroll({
-  query: { fetchNextPage, data, isFetchingNextPage, isLoading },
+  query: {
+    fetchNextPage,
+    data,
+    isFetchingNextPage,
+    isFetchingPreviousPage,
+    isLoading,
+    hasPreviousPage,
+    fetchPreviousPage,
+  },
   cancelRefetch,
 }: {
   query: UseInfiniteQueryResult<InfiniteData<ApiData, unknown>>;
@@ -186,15 +222,23 @@ function InfiniteScroll({
 }) {
   const ref = useRef<HTMLElement | null>(null);
   useOnScroll({
-    offsetBottom: 10,
     ref,
     onReachBottom: () => fetchNextPage({ cancelRefetch }),
+    offsetBottom: 100,
+    onReachTop: () => hasPreviousPage && fetchPreviousPage({ cancelRefetch }),
+    offsetTop: 200,
   });
 
   return (
     <Box>
-      <Box visibility={isFetchingNextPage ? 'visible' : 'hidden'}>
-        <Typography>Fetching next page...</Typography>
+      <Box
+        visibility={
+          isFetchingNextPage || isFetchingPreviousPage ? 'visible' : 'hidden'
+        }
+      >
+        <Typography>
+          Fetching {isFetchingNextPage ? 'next' : 'previous'} page...
+        </Typography>
       </Box>
       <Box
         maxHeight={120}
@@ -208,7 +252,7 @@ function InfiniteScroll({
           <Box key={`page-${page}`}>
             <Typography fontWeight={500}>Page {page}</Typography>
             {result.map(item => (
-              <Typography>- {item}</Typography>
+              <Typography key={item}>- {item}</Typography>
             ))}
           </Box>
         ))}

@@ -29,4 +29,12 @@ router.get('/max-pages/:page', async (req, res) => {
   return res.send({ page, result });
 });
 
+router.get('/fetch-previous-page/:page', async (req, res) => {
+  const page = Number(req.params.page);
+
+  const result = await buildPaginatedResult(page, 15);
+
+  return res.send({ page, result });
+});
+
 export { router };
