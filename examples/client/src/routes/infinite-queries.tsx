@@ -8,7 +8,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { useEffect, useRef, useState } from 'react';
 import { buildApi } from '../api';
 import { ExampleHeaderTab } from '../components/example/ExampleHeaderTab';
-import { VerticalSeparator } from '../components/VerticalSeparator';
+import { ExampleSections } from '../components/example/ExampleSections';
 import { useExampleKey } from '../contexts/exampleKeyContext';
 import { useOnScroll } from '../hooks/useOnScroll';
 
@@ -54,17 +54,19 @@ function RouteComponent() {
 
 function CancelRefetchExample() {
   return (
-    <Box display="flex" gap={2}>
-      <Box>
-        <Typography variant="h6">cancelRefetch = true</Typography>
-        <CancelRefetchExampleItem cancelRefetch={true} />
-      </Box>
-      <VerticalSeparator />
-      <Box>
-        <Typography variant="h6">cancelRefetch = false</Typography>
-        <CancelRefetchExampleItem cancelRefetch={false} />
-      </Box>
-    </Box>
+    <ExampleSections
+      sections={[
+        {
+          title: 'cancelRefetch = true',
+          render: <CancelRefetchExampleItem cancelRefetch={true} />,
+        },
+        {
+          title: 'cancelRefetch = false',
+          render: <CancelRefetchExampleItem cancelRefetch={false} />,
+        },
+      ]}
+      titleProps={{ mb: -4 }}
+    />
   );
 }
 
@@ -149,19 +151,20 @@ function SequentialRefetchExample() {
       <Typography visibility={isFetching ? 'visible' : 'hidden'}>
         Fetching Page {fetchingPageNumber}
       </Typography>
-      <Box display="flex" gap={2}>
-        {data.pages.map(({ page, result }) => (
-          <Box display="flex" gap={2} key={`page-${page}`}>
-            <Box>
-              <Typography>Page {page}</Typography>
-              {result.map(item => (
-                <Typography key={item}>- {item}</Typography>
-              ))}
+      <ExampleSections
+        sections={data.pages.map(({ page, result }) => ({
+          render: (
+            <Box display="flex" gap={2} key={`page-${page}`}>
+              <Box>
+                <Typography>Page {page}</Typography>
+                {result.map(item => (
+                  <Typography key={item}>- {item}</Typography>
+                ))}
+              </Box>
             </Box>
-            {page < data.pages.length && <VerticalSeparator />}
-          </Box>
-        ))}
-      </Box>
+          ),
+        }))}
+      />
     </Box>
   );
 }

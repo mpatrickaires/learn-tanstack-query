@@ -8,9 +8,9 @@ import { createFileRoute } from '@tanstack/react-router';
 import { useEffect, useState, type Dispatch, type SetStateAction } from 'react';
 import { buildApi } from '../api';
 import { ExampleHeader } from '../components/example/ExampleHeader';
+import { ExampleSections } from '../components/example/ExampleSections';
 import { useExampleKey } from '../contexts/exampleKeyContext';
 import { minutesToMs } from '../utils';
-import { VerticalSeparator } from '../components/VerticalSeparator';
 
 const api = buildApi('/paginated-queries');
 
@@ -83,11 +83,20 @@ function Example() {
           disabled={isLoading}
         />
       </Box>
-      <Box display="flex" gap={2}>
-        <PaginationExample usePlaceholderData={true} page={page} />
-        <VerticalSeparator />
-        <PaginationExample usePlaceholderData={false} page={page} />
-      </Box>
+      <ExampleSections
+        sections={[
+          {
+            title: 'With placeholder data',
+            render: <PaginationExample usePlaceholderData={true} page={page} />,
+          },
+          {
+            title: 'No placeholder data',
+            render: (
+              <PaginationExample usePlaceholderData={false} page={page} />
+            ),
+          },
+        ]}
+      />
     </>
   );
 }
@@ -103,9 +112,6 @@ function PaginationExample({
 
   return (
     <Box>
-      <Typography variant="h6">
-        {usePlaceholderData ? 'With placeholder data' : 'No placeholder data'}
-      </Typography>
       <Typography visibility={isFetching ? 'visible' : 'hidden'}>
         isFetching...
       </Typography>
