@@ -13,6 +13,7 @@ import { Route as QueryRetriesRouteImport } from './routes/query-retries'
 import { Route as ParallelQueriesManualRouteImport } from './routes/parallel-queries-manual'
 import { Route as ParallelQueriesDynamicRouteImport } from './routes/parallel-queries-dynamic'
 import { Route as PaginatedQueriesRouteImport } from './routes/paginated-queries'
+import { Route as InitialQueryDataRouteImport } from './routes/initial-query-data'
 import { Route as InfiniteQueriesRouteImport } from './routes/infinite-queries'
 import { Route as FetchingIndicatorsRouteImport } from './routes/fetching-indicators'
 import { Route as DedupingRouteImport } from './routes/deduping'
@@ -36,6 +37,11 @@ const ParallelQueriesDynamicRoute = ParallelQueriesDynamicRouteImport.update({
 const PaginatedQueriesRoute = PaginatedQueriesRouteImport.update({
   id: '/paginated-queries',
   path: '/paginated-queries',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const InitialQueryDataRoute = InitialQueryDataRouteImport.update({
+  id: '/initial-query-data',
+  path: '/initial-query-data',
   getParentRoute: () => rootRouteImport,
 } as any)
 const InfiniteQueriesRoute = InfiniteQueriesRouteImport.update({
@@ -64,6 +70,7 @@ export interface FileRoutesByFullPath {
   '/deduping': typeof DedupingRoute
   '/fetching-indicators': typeof FetchingIndicatorsRoute
   '/infinite-queries': typeof InfiniteQueriesRoute
+  '/initial-query-data': typeof InitialQueryDataRoute
   '/paginated-queries': typeof PaginatedQueriesRoute
   '/parallel-queries-dynamic': typeof ParallelQueriesDynamicRoute
   '/parallel-queries-manual': typeof ParallelQueriesManualRoute
@@ -74,6 +81,7 @@ export interface FileRoutesByTo {
   '/deduping': typeof DedupingRoute
   '/fetching-indicators': typeof FetchingIndicatorsRoute
   '/infinite-queries': typeof InfiniteQueriesRoute
+  '/initial-query-data': typeof InitialQueryDataRoute
   '/paginated-queries': typeof PaginatedQueriesRoute
   '/parallel-queries-dynamic': typeof ParallelQueriesDynamicRoute
   '/parallel-queries-manual': typeof ParallelQueriesManualRoute
@@ -85,6 +93,7 @@ export interface FileRoutesById {
   '/deduping': typeof DedupingRoute
   '/fetching-indicators': typeof FetchingIndicatorsRoute
   '/infinite-queries': typeof InfiniteQueriesRoute
+  '/initial-query-data': typeof InitialQueryDataRoute
   '/paginated-queries': typeof PaginatedQueriesRoute
   '/parallel-queries-dynamic': typeof ParallelQueriesDynamicRoute
   '/parallel-queries-manual': typeof ParallelQueriesManualRoute
@@ -97,6 +106,7 @@ export interface FileRouteTypes {
     | '/deduping'
     | '/fetching-indicators'
     | '/infinite-queries'
+    | '/initial-query-data'
     | '/paginated-queries'
     | '/parallel-queries-dynamic'
     | '/parallel-queries-manual'
@@ -107,6 +117,7 @@ export interface FileRouteTypes {
     | '/deduping'
     | '/fetching-indicators'
     | '/infinite-queries'
+    | '/initial-query-data'
     | '/paginated-queries'
     | '/parallel-queries-dynamic'
     | '/parallel-queries-manual'
@@ -117,6 +128,7 @@ export interface FileRouteTypes {
     | '/deduping'
     | '/fetching-indicators'
     | '/infinite-queries'
+    | '/initial-query-data'
     | '/paginated-queries'
     | '/parallel-queries-dynamic'
     | '/parallel-queries-manual'
@@ -128,6 +140,7 @@ export interface RootRouteChildren {
   DedupingRoute: typeof DedupingRoute
   FetchingIndicatorsRoute: typeof FetchingIndicatorsRoute
   InfiniteQueriesRoute: typeof InfiniteQueriesRoute
+  InitialQueryDataRoute: typeof InitialQueryDataRoute
   PaginatedQueriesRoute: typeof PaginatedQueriesRoute
   ParallelQueriesDynamicRoute: typeof ParallelQueriesDynamicRoute
   ParallelQueriesManualRoute: typeof ParallelQueriesManualRoute
@@ -162,6 +175,13 @@ declare module '@tanstack/react-router' {
       path: '/paginated-queries'
       fullPath: '/paginated-queries'
       preLoaderRoute: typeof PaginatedQueriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/initial-query-data': {
+      id: '/initial-query-data'
+      path: '/initial-query-data'
+      fullPath: '/initial-query-data'
+      preLoaderRoute: typeof InitialQueryDataRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/infinite-queries': {
@@ -200,6 +220,7 @@ const rootRouteChildren: RootRouteChildren = {
   DedupingRoute: DedupingRoute,
   FetchingIndicatorsRoute: FetchingIndicatorsRoute,
   InfiniteQueriesRoute: InfiniteQueriesRoute,
+  InitialQueryDataRoute: InitialQueryDataRoute,
   PaginatedQueriesRoute: PaginatedQueriesRoute,
   ParallelQueriesDynamicRoute: ParallelQueriesDynamicRoute,
   ParallelQueriesManualRoute: ParallelQueriesManualRoute,

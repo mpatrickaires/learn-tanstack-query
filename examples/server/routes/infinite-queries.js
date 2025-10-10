@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { buildPaginatedResult } from '../utils.js';
+import { buildPaginatedResult, getTime } from '../utils.js';
 
 const router = Router();
 
@@ -15,7 +15,7 @@ router.get('/sequential-refetch/:page', async (req, res) => {
   const page = Number(req.params.page);
 
   const result = (await buildPaginatedResult(req.params.page, 5)).map(
-    value => `${value} (${new Date().toLocaleTimeString('pt-BR')})`
+    value => `${value} (${getTime()})`
   );
 
   return res.send({ page, result });

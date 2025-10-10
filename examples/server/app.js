@@ -7,6 +7,7 @@ import { router as backgroundFetchingIndicator } from './routes/background-fetch
 import { router as queryRetries } from './routes/query-retries.js';
 import { router as paginatedQueries } from './routes/paginated-queries.js';
 import { router as infiniteQueries } from './routes/infinite-queries.js';
+import { router as initialQueryData } from './routes/initial-query-data.js';
 
 const app = express();
 
@@ -31,5 +32,6 @@ app.use('/background-fetching-indicators', backgroundFetchingIndicator);
 app.use('/query-retries', queryRetries);
 app.use('/paginated-queries', paginatedQueries);
 app.use('/infinite-queries', infiniteQueries);
+app.use('/initial-query-data', initialQueryData);
 
 app.listen(5000, () => console.log('Server running'));

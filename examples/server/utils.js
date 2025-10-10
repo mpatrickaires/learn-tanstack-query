@@ -34,3 +34,7 @@ export async function buildPaginatedResult(page, amount = 5) {
 
   return arrayWithNumbers(amount, startWith).map(n => `Item ${n}`);
 }
+
+export function getTime() {
+  return new Date().toLocaleTimeString('pt-BR');
+}

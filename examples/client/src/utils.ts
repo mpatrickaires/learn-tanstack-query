@@ -19,3 +19,11 @@ type GenerateRandomNumbersParams = {
 export function minutesToMs(minutes: number) {
   return minutes * 60000;
 }
+
+export function secondsToMs(seconds: number) {
+  return seconds * 1000;
+}
+
+export function getTime() {
+  return new Date().toLocaleTimeString('pt-BR');
+}
