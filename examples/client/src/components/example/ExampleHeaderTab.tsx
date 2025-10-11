@@ -13,7 +13,12 @@ export function ExampleHeaderTab({ tabs, docsUrl }: Props) {
       <ExampleTitle docsUrl={docsUrl} />
       <Tabs value={tabValue} onChange={(_, value) => setTabValue(value)}>
         {tabs.map(({ label }, i) => (
-          <Tab label={label} value={i} key={label} />
+          <Tab
+            label={label}
+            value={i}
+            key={label}
+            sx={{ textTransform: 'none' }}
+          />
         ))}
       </Tabs>
       <TabRender tabs={tabs} tabValue={tabValue} />

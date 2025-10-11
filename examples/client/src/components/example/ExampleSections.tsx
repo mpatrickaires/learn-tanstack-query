@@ -10,7 +10,7 @@ export function ExampleSections({ sections, titleProps }: Props) {
         <>
           <Box>
             {title && (
-              <Typography variant="h5" mb={2} {...titleProps}>
+              <Typography variant="h6" mb={2} {...titleProps}>
                 {title}
               </Typography>
             )}

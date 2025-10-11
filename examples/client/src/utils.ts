@@ -24,6 +24,20 @@ export function secondsToMs(seconds: number) {
   return seconds * 1000;
 }
 
+export function msToSeconds(ms: number) {
+  return ms / 1000;
+}
+
+export function formatTime(date: Date) {
+  return date.toLocaleTimeString('pt-BR');
+}
+
 export function getTime() {
-  return new Date().toLocaleTimeString('pt-BR');
+  return formatTime(new Date());
+}
+
+export function getDateAtSecondsAgo(seconds: number) {
+  const msAgo = secondsToMs(seconds);
+  const now = Date.now();
+  return new Date(now - msAgo);
 }
