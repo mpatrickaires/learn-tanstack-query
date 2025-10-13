@@ -1,9 +1,21 @@
 import { Box, Button } from '@mui/material';
-import { useState, type PropsWithChildren } from 'react';
+import {
+  forwardRef,
+  useImperativeHandle,
+  useState,
+  type PropsWithChildren,
+} from 'react';
 import { ExampleKeyProvider } from '../../contexts/exampleKeyContext';
 
-export function ExampleRun({ children }: Props) {
+export const ExampleRun = forwardRef(({ children }: Props, ref) => {
   const [exampleKey, setExampleKey] = useState<number | null>(null);
+  useImperativeHandle(
+    ref,
+    () =>
+      ({
+        hide: () => setExampleKey(null),
+      }) satisfies ExampleRunRef
+  );
 
   return (
     <ExampleKeyProvider exampleKey={exampleKey}>
@@ -14,6 +26,10 @@ export function ExampleRun({ children }: Props) {
       {exampleKey && <Box key={exampleKey}>{children}</Box>}
     </ExampleKeyProvider>
   );
-}
+});
 
 type Props = PropsWithChildren;
+
+export type ExampleRunRef = {
+  hide: () => void;
+};

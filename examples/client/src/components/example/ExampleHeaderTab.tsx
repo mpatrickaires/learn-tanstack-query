@@ -1,8 +1,8 @@
 import type { JSX } from '@emotion/react/jsx-runtime';
 import { Box, Tab, Tabs } from '@mui/material';
-import { useMemo, useState } from 'react';
+import { useMemo, useRef, useState } from 'react';
 import { ExampleDescription } from './ExampleDescription';
-import { ExampleRun } from './ExampleRun';
+import { ExampleRun, type ExampleRunRef } from './ExampleRun';
 import { ExampleTitle } from './ExampleTitle';
 
 export function ExampleHeaderTab({ tabs, docsUrl }: Props) {
@@ -30,7 +30,15 @@ function TabRender({
   tabs,
   tabValue,
 }: Pick<Props, 'tabs'> & { tabValue: number }) {
-  const tab = useMemo(() => tabs[tabValue], [tabs, tabValue]);
+  const exampleRef = useRef<ExampleRunRef>(null);
+
+  const tab = useMemo(() => {
+    const tab = tabs[tabValue];
+    exampleRef.current?.hide();
+
+    return tab;
+  }, [tabs, tabValue]);
+
   if (!tab) {
     throw new Error(`No tab found for tabValue '${tabValue}'`);
   }
@@ -38,7 +46,7 @@ function TabRender({
   return (
     <Box mt={2}>
       <ExampleDescription description={tab.description} />
-      <ExampleRun>{tab.render}</ExampleRun>
+      <ExampleRun ref={exampleRef}>{tab.render}</ExampleRun>
     </Box>
   );
 }
