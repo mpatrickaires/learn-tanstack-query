@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as RefetchOnMountRouteImport } from './routes/refetch-on-mount'
 import { Route as QueryRetriesRouteImport } from './routes/query-retries'
 import { Route as ParallelQueriesManualRouteImport } from './routes/parallel-queries-manual'
 import { Route as ParallelQueriesDynamicRouteImport } from './routes/parallel-queries-dynamic'
@@ -19,6 +20,11 @@ import { Route as FetchingIndicatorsRouteImport } from './routes/fetching-indica
 import { Route as DedupingRouteImport } from './routes/deduping'
 import { Route as IndexRouteImport } from './routes/index'
 
+const RefetchOnMountRoute = RefetchOnMountRouteImport.update({
+  id: '/refetch-on-mount',
+  path: '/refetch-on-mount',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const QueryRetriesRoute = QueryRetriesRouteImport.update({
   id: '/query-retries',
   path: '/query-retries',
@@ -75,6 +81,7 @@ export interface FileRoutesByFullPath {
   '/parallel-queries-dynamic': typeof ParallelQueriesDynamicRoute
   '/parallel-queries-manual': typeof ParallelQueriesManualRoute
   '/query-retries': typeof QueryRetriesRoute
+  '/refetch-on-mount': typeof RefetchOnMountRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -86,6 +93,7 @@ export interface FileRoutesByTo {
   '/parallel-queries-dynamic': typeof ParallelQueriesDynamicRoute
   '/parallel-queries-manual': typeof ParallelQueriesManualRoute
   '/query-retries': typeof QueryRetriesRoute
+  '/refetch-on-mount': typeof RefetchOnMountRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -98,6 +106,7 @@ export interface FileRoutesById {
   '/parallel-queries-dynamic': typeof ParallelQueriesDynamicRoute
   '/parallel-queries-manual': typeof ParallelQueriesManualRoute
   '/query-retries': typeof QueryRetriesRoute
+  '/refetch-on-mount': typeof RefetchOnMountRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -111,6 +120,7 @@ export interface FileRouteTypes {
     | '/parallel-queries-dynamic'
     | '/parallel-queries-manual'
     | '/query-retries'
+    | '/refetch-on-mount'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -122,6 +132,7 @@ export interface FileRouteTypes {
     | '/parallel-queries-dynamic'
     | '/parallel-queries-manual'
     | '/query-retries'
+    | '/refetch-on-mount'
   id:
     | '__root__'
     | '/'
@@ -133,6 +144,7 @@ export interface FileRouteTypes {
     | '/parallel-queries-dynamic'
     | '/parallel-queries-manual'
     | '/query-retries'
+    | '/refetch-on-mount'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -145,10 +157,18 @@ export interface RootRouteChildren {
   ParallelQueriesDynamicRoute: typeof ParallelQueriesDynamicRoute
   ParallelQueriesManualRoute: typeof ParallelQueriesManualRoute
   QueryRetriesRoute: typeof QueryRetriesRoute
+  RefetchOnMountRoute: typeof RefetchOnMountRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/refetch-on-mount': {
+      id: '/refetch-on-mount'
+      path: '/refetch-on-mount'
+      fullPath: '/refetch-on-mount'
+      preLoaderRoute: typeof RefetchOnMountRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/query-retries': {
       id: '/query-retries'
       path: '/query-retries'
@@ -225,6 +245,7 @@ const rootRouteChildren: RootRouteChildren = {
   ParallelQueriesDynamicRoute: ParallelQueriesDynamicRoute,
   ParallelQueriesManualRoute: ParallelQueriesManualRoute,
   QueryRetriesRoute: QueryRetriesRoute,
+  RefetchOnMountRoute: RefetchOnMountRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

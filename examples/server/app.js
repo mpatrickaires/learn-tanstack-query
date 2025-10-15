@@ -8,6 +8,7 @@ import { router as queryRetries } from './routes/query-retries.js';
 import { router as paginatedQueries } from './routes/paginated-queries.js';
 import { router as infiniteQueries } from './routes/infinite-queries.js';
 import { router as initialQueryData } from './routes/initial-query-data.js';
+import { router as refetchOnMount } from './routes/refetch-on-mount.js';
 
 const app = express();
 
@@ -33,5 +34,6 @@ app.use('/query-retries', queryRetries);
 app.use('/paginated-queries', paginatedQueries);
 app.use('/infinite-queries', infiniteQueries);
 app.use('/initial-query-data', initialQueryData);
+app.use('/refetch-on-mount', refetchOnMount);
 
 app.listen(5000, () => console.log('Server running'));
