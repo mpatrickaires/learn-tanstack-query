@@ -41,3 +41,8 @@ export function getDateAtSecondsAgo(seconds: number) {
   const now = Date.now();
   return new Date(now - msAgo);
 }
+
+export function arrayWithNumbers(amount: number, startWith: number = 1) {
+  startWith = Number(startWith);
+  return [...Array(amount)].map((_, i) => i + startWith);
+}

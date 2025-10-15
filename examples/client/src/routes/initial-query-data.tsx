@@ -1,11 +1,18 @@
-import { Box, Typography } from '@mui/material';
-import { useQuery, type DefinedUseQueryResult } from '@tanstack/react-query';
+import SearchIcon from '@mui/icons-material/Search';
+import { Box, Button, TextField, Typography } from '@mui/material';
+import {
+  queryOptions,
+  useQuery,
+  useQueryClient,
+  type DefinedUseQueryResult,
+} from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
-import { useEffect, useMemo, type PropsWithChildren } from 'react';
+import { useEffect, useMemo, useState, type PropsWithChildren } from 'react';
 import { buildApi } from '../api';
-import { ExampleHeader } from '../components/example/ExampleHeader';
+import { ExampleHeaderTab } from '../components/example/ExampleHeaderTab';
 import { ExampleSections } from '../components/example/ExampleSections';
 import { useExampleKey } from '../contexts/exampleKeyContext';
+import { useElapsedTime } from '../hooks/useElapsedTime';
 import {
   formatTime,
   getDateAtSecondsAgo,
@@ -13,8 +20,6 @@ import {
   msToSeconds,
   secondsToMs,
 } from '../utils';
-import { ExampleHeaderTab } from '../components/example/ExampleHeaderTab';
-import { useElapsedTime } from '../hooks/useElapsedTime';
 
 const api = buildApi('/initial-query-data');
 
@@ -37,6 +42,12 @@ function RouteComponent() {
           label: 'initialDataUpdatedAt',
           description: `You can tell how old the initial data is with \`initialDataUpdatedAt\` by passing a JS timestamp in milliseconds of when the \`initialData\` itself was last updated. In the example below, the \`initialDataUpdatedAt\` is 2 seconds ago, and with a \`staleTime\` of 5 seconds it means the data will be stale after 3 seconds, since it isn't totally fresh. Observe that further data received from the API will only become stale after 5 seconds, as expected.`,
           render: <InitialDataUpdatedAtExample />,
+        },
+        {
+          label: 'Initial Data from Cache',
+          description:
+            'The initial data can also be obtained from the cache of another query. In the example below, the items of ID 1, 2 and 3 are already loaded in the items query, so if you search their ID, the single item query will fetch them directly from the items query, while for other IDs it will have to fetch from the API (displaying a loader).',
+          render: <InitialDataFromCacheExample />,
         },
       ]}
       docsUrl="https://tanstack.com/query/latest/docs/framework/react/guides/initial-query-data"
@@ -96,6 +107,98 @@ function InitialDataUpdatedAtExample() {
   );
 }
 
+function InitialDataFromCacheExample() {
+  const exampleKey = useExampleKey();
+
+  const { data: items } = useQuery(
+    initialDataFromCacheQueryOptions(exampleKey)
+  );
+
+  const [fieldValue, setFieldValue] = useState<number | ''>('');
+  const [queryId, setQueryId] = useState<number | null>(null);
+  const queryClient = useQueryClient();
+
+  const {
+    data: singleItem,
+    isLoading: isLoadingSingleItem,
+    isSuccess: isSuccessSingleItem,
+  } = useQuery({
+    queryKey: ['initialQueryData', 'initialDataFromCache', queryId, exampleKey],
+    queryFn: () => {
+      const cacheItem = queryClient
+        .getQueryData(initialDataFromCacheQueryOptions(exampleKey).queryKey)
+        ?.find(item => item.id === queryId);
+      if (cacheItem) {
+        return cacheItem;
+      }
+
+      return api
+        .get<InitialDataFromCacheResponse>(
+          `/initial-data-from-cache/${queryId}`
+        )
+        .then(r => r.data);
+    },
+    enabled: !!queryId,
+  });
+
+  return (
+    <Box>
+      <Box>
+        <Typography variant="h6">Items query:</Typography>
+        {items?.map(({ label }) => (
+          <Typography>- {label}</Typography>
+        ))}
+      </Box>
+      <hr />
+      <Box mt={1}>
+        <Typography variant="h6">Single item query:</Typography>
+        <form
+          onSubmit={e => {
+            e.preventDefault();
+            if (fieldValue) {
+              setQueryId(fieldValue);
+            }
+          }}
+        >
+          <TextField
+            label="Item ID"
+            value={fieldValue}
+            onChange={e => {
+              const value = e.target.value.trim();
+              if (!value) {
+                setFieldValue('');
+                return;
+              }
+
+              const number = Number(value);
+              if (isNaN(number)) {
+                setFieldValue('');
+                return;
+              }
+
+              setFieldValue(number);
+            }}
+            disabled={isLoadingSingleItem}
+            size="small"
+          />
+          <Button loading={isLoadingSingleItem} type="submit" size="small">
+            <SearchIcon />
+          </Button>
+        </form>
+        <Box>
+          {isSuccessSingleItem && (
+            <>
+              <Typography>ID: {singleItem.id}</Typography>
+              <Typography>Label: {singleItem.label}</Typography>
+              <Typography>Description: {singleItem.description}</Typography>
+            </>
+          )}
+        </Box>
+      </Box>
+    </Box>
+  );
+}
+
 function DataDisplay({
   query: { data, isFetching, isStale, isPending, dataUpdatedAt },
   staleTime,
@@ -143,3 +246,19 @@ function QueryInfo({ children }: PropsWithChildren) {
     </Typography>
   );
 }
+
+function initialDataFromCacheQueryOptions(exampleKey: number) {
+  return queryOptions({
+    queryKey: ['initialQueryData', 'initialDataFromCache', exampleKey],
+    queryFn: () =>
+      api
+        .get<Array<InitialDataFromCacheResponse>>('/initial-data-from-cache/0')
+        .then(r => r.data),
+  });
+}
+
+type InitialDataFromCacheResponse = {
+  id: number;
+  label: string;
+  description: string;
+};
