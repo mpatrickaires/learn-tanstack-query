@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as RefetchOnMountRouteImport } from './routes/refetch-on-mount'
 import { Route as QueryRetriesRouteImport } from './routes/query-retries'
+import { Route as PlaceholderDataRouteImport } from './routes/placeholder-data'
 import { Route as ParallelQueriesManualRouteImport } from './routes/parallel-queries-manual'
 import { Route as ParallelQueriesDynamicRouteImport } from './routes/parallel-queries-dynamic'
 import { Route as PaginatedQueriesRouteImport } from './routes/paginated-queries'
@@ -28,6 +29,11 @@ const RefetchOnMountRoute = RefetchOnMountRouteImport.update({
 const QueryRetriesRoute = QueryRetriesRouteImport.update({
   id: '/query-retries',
   path: '/query-retries',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PlaceholderDataRoute = PlaceholderDataRouteImport.update({
+  id: '/placeholder-data',
+  path: '/placeholder-data',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ParallelQueriesManualRoute = ParallelQueriesManualRouteImport.update({
@@ -80,6 +86,7 @@ export interface FileRoutesByFullPath {
   '/paginated-queries': typeof PaginatedQueriesRoute
   '/parallel-queries-dynamic': typeof ParallelQueriesDynamicRoute
   '/parallel-queries-manual': typeof ParallelQueriesManualRoute
+  '/placeholder-data': typeof PlaceholderDataRoute
   '/query-retries': typeof QueryRetriesRoute
   '/refetch-on-mount': typeof RefetchOnMountRoute
 }
@@ -92,6 +99,7 @@ export interface FileRoutesByTo {
   '/paginated-queries': typeof PaginatedQueriesRoute
   '/parallel-queries-dynamic': typeof ParallelQueriesDynamicRoute
   '/parallel-queries-manual': typeof ParallelQueriesManualRoute
+  '/placeholder-data': typeof PlaceholderDataRoute
   '/query-retries': typeof QueryRetriesRoute
   '/refetch-on-mount': typeof RefetchOnMountRoute
 }
@@ -105,6 +113,7 @@ export interface FileRoutesById {
   '/paginated-queries': typeof PaginatedQueriesRoute
   '/parallel-queries-dynamic': typeof ParallelQueriesDynamicRoute
   '/parallel-queries-manual': typeof ParallelQueriesManualRoute
+  '/placeholder-data': typeof PlaceholderDataRoute
   '/query-retries': typeof QueryRetriesRoute
   '/refetch-on-mount': typeof RefetchOnMountRoute
 }
@@ -119,6 +128,7 @@ export interface FileRouteTypes {
     | '/paginated-queries'
     | '/parallel-queries-dynamic'
     | '/parallel-queries-manual'
+    | '/placeholder-data'
     | '/query-retries'
     | '/refetch-on-mount'
   fileRoutesByTo: FileRoutesByTo
@@ -131,6 +141,7 @@ export interface FileRouteTypes {
     | '/paginated-queries'
     | '/parallel-queries-dynamic'
     | '/parallel-queries-manual'
+    | '/placeholder-data'
     | '/query-retries'
     | '/refetch-on-mount'
   id:
@@ -143,6 +154,7 @@ export interface FileRouteTypes {
     | '/paginated-queries'
     | '/parallel-queries-dynamic'
     | '/parallel-queries-manual'
+    | '/placeholder-data'
     | '/query-retries'
     | '/refetch-on-mount'
   fileRoutesById: FileRoutesById
@@ -156,6 +168,7 @@ export interface RootRouteChildren {
   PaginatedQueriesRoute: typeof PaginatedQueriesRoute
   ParallelQueriesDynamicRoute: typeof ParallelQueriesDynamicRoute
   ParallelQueriesManualRoute: typeof ParallelQueriesManualRoute
+  PlaceholderDataRoute: typeof PlaceholderDataRoute
   QueryRetriesRoute: typeof QueryRetriesRoute
   RefetchOnMountRoute: typeof RefetchOnMountRoute
 }
@@ -174,6 +187,13 @@ declare module '@tanstack/react-router' {
       path: '/query-retries'
       fullPath: '/query-retries'
       preLoaderRoute: typeof QueryRetriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/placeholder-data': {
+      id: '/placeholder-data'
+      path: '/placeholder-data'
+      fullPath: '/placeholder-data'
+      preLoaderRoute: typeof PlaceholderDataRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/parallel-queries-manual': {
@@ -244,6 +264,7 @@ const rootRouteChildren: RootRouteChildren = {
   PaginatedQueriesRoute: PaginatedQueriesRoute,
   ParallelQueriesDynamicRoute: ParallelQueriesDynamicRoute,
   ParallelQueriesManualRoute: ParallelQueriesManualRoute,
+  PlaceholderDataRoute: PlaceholderDataRoute,
   QueryRetriesRoute: QueryRetriesRoute,
   RefetchOnMountRoute: RefetchOnMountRoute,
 }

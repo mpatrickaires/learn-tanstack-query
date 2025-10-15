@@ -3,7 +3,9 @@ import { Box, Typography } from '@mui/material';
 import type { ComponentPropsWithoutRef } from 'react';
 import { VerticalSeparator } from '../VerticalSeparator';
 
-export function ExampleSections({ sections, titleProps }: Props) {
+export function ExampleSections({ titleProps, ...props }: Props) {
+  const sections = props.sections.filter(({ show }) => show !== false);
+
   return (
     <Box display="flex" gap={2}>
       {sections.map(({ title, render }, i) => (
@@ -27,6 +29,7 @@ type Props = {
   sections: Array<{
     title?: string;
     render: JSX.Element;
+    show?: boolean;
   }>;
   titleProps?: ComponentPropsWithoutRef<typeof Typography>;
 };
