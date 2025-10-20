@@ -13,7 +13,12 @@ export function useElapsedTime({
   const elapsedTimeIntervalRef = useRef<NodeJS.Timeout | null>(null);
 
   useEffect(() => {
-    debugger;
+    if (enabled) {
+      setIsEnabled(true);
+    }
+  }, [enabled]);
+
+  useEffect(() => {
     if (elapsedTimeIntervalRef.current || !isEnabled) {
       return;
     }

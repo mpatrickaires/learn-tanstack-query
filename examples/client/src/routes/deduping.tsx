@@ -75,8 +75,8 @@ function ExampleDelayedComponent() {
   const exampleKey = useExampleKey();
   const { data, isSuccess } = useDedupingQuery({ enabled: isQueryEnabled });
   const { elapsedTimeInSeconds } = useElapsedTime({
-    clearOn: isSuccess,
     enabled: isQueryEnabled,
+    clearOn: isSuccess,
   });
 
   useEffect(() => {
