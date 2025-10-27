@@ -11,6 +11,7 @@ import { router as initialQueryData } from './routes/initial-query-data.js';
 import { router as refetchOnMount } from './routes/refetch-on-mount.js';
 import { router as placeholderData } from './routes/placeholder-data.js';
 import { router as mutationScope } from './routes/mutation-scope.js';
+import { router as invalidateQueries } from './routes/invalidate-queries.js';
 
 const app = express();
 
@@ -39,5 +40,6 @@ app.use('/initial-query-data', initialQueryData);
 app.use('/refetch-on-mount', refetchOnMount);
 app.use('/placeholder-data', placeholderData);
 app.use('/mutation-scope', mutationScope);
+app.use('/invalidate-queries', invalidateQueries);
 
 app.listen(5000, () => console.log('Server running'));
