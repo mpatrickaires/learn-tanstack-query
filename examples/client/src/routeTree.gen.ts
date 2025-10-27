@@ -15,6 +15,7 @@ import { Route as PlaceholderDataRouteImport } from './routes/placeholder-data'
 import { Route as ParallelQueriesManualRouteImport } from './routes/parallel-queries-manual'
 import { Route as ParallelQueriesDynamicRouteImport } from './routes/parallel-queries-dynamic'
 import { Route as PaginatedQueriesRouteImport } from './routes/paginated-queries'
+import { Route as MutationScopeRouteImport } from './routes/mutation-scope'
 import { Route as InitialQueryDataRouteImport } from './routes/initial-query-data'
 import { Route as InfiniteQueriesRouteImport } from './routes/infinite-queries'
 import { Route as FetchingIndicatorsRouteImport } from './routes/fetching-indicators'
@@ -51,6 +52,11 @@ const PaginatedQueriesRoute = PaginatedQueriesRouteImport.update({
   path: '/paginated-queries',
   getParentRoute: () => rootRouteImport,
 } as any)
+const MutationScopeRoute = MutationScopeRouteImport.update({
+  id: '/mutation-scope',
+  path: '/mutation-scope',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const InitialQueryDataRoute = InitialQueryDataRouteImport.update({
   id: '/initial-query-data',
   path: '/initial-query-data',
@@ -83,6 +89,7 @@ export interface FileRoutesByFullPath {
   '/fetching-indicators': typeof FetchingIndicatorsRoute
   '/infinite-queries': typeof InfiniteQueriesRoute
   '/initial-query-data': typeof InitialQueryDataRoute
+  '/mutation-scope': typeof MutationScopeRoute
   '/paginated-queries': typeof PaginatedQueriesRoute
   '/parallel-queries-dynamic': typeof ParallelQueriesDynamicRoute
   '/parallel-queries-manual': typeof ParallelQueriesManualRoute
@@ -96,6 +103,7 @@ export interface FileRoutesByTo {
   '/fetching-indicators': typeof FetchingIndicatorsRoute
   '/infinite-queries': typeof InfiniteQueriesRoute
   '/initial-query-data': typeof InitialQueryDataRoute
+  '/mutation-scope': typeof MutationScopeRoute
   '/paginated-queries': typeof PaginatedQueriesRoute
   '/parallel-queries-dynamic': typeof ParallelQueriesDynamicRoute
   '/parallel-queries-manual': typeof ParallelQueriesManualRoute
@@ -110,6 +118,7 @@ export interface FileRoutesById {
   '/fetching-indicators': typeof FetchingIndicatorsRoute
   '/infinite-queries': typeof InfiniteQueriesRoute
   '/initial-query-data': typeof InitialQueryDataRoute
+  '/mutation-scope': typeof MutationScopeRoute
   '/paginated-queries': typeof PaginatedQueriesRoute
   '/parallel-queries-dynamic': typeof ParallelQueriesDynamicRoute
   '/parallel-queries-manual': typeof ParallelQueriesManualRoute
@@ -125,6 +134,7 @@ export interface FileRouteTypes {
     | '/fetching-indicators'
     | '/infinite-queries'
     | '/initial-query-data'
+    | '/mutation-scope'
     | '/paginated-queries'
     | '/parallel-queries-dynamic'
     | '/parallel-queries-manual'
@@ -138,6 +148,7 @@ export interface FileRouteTypes {
     | '/fetching-indicators'
     | '/infinite-queries'
     | '/initial-query-data'
+    | '/mutation-scope'
     | '/paginated-queries'
     | '/parallel-queries-dynamic'
     | '/parallel-queries-manual'
@@ -151,6 +162,7 @@ export interface FileRouteTypes {
     | '/fetching-indicators'
     | '/infinite-queries'
     | '/initial-query-data'
+    | '/mutation-scope'
     | '/paginated-queries'
     | '/parallel-queries-dynamic'
     | '/parallel-queries-manual'
@@ -165,6 +177,7 @@ export interface RootRouteChildren {
   FetchingIndicatorsRoute: typeof FetchingIndicatorsRoute
   InfiniteQueriesRoute: typeof InfiniteQueriesRoute
   InitialQueryDataRoute: typeof InitialQueryDataRoute
+  MutationScopeRoute: typeof MutationScopeRoute
   PaginatedQueriesRoute: typeof PaginatedQueriesRoute
   ParallelQueriesDynamicRoute: typeof ParallelQueriesDynamicRoute
   ParallelQueriesManualRoute: typeof ParallelQueriesManualRoute
@@ -217,6 +230,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PaginatedQueriesRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/mutation-scope': {
+      id: '/mutation-scope'
+      path: '/mutation-scope'
+      fullPath: '/mutation-scope'
+      preLoaderRoute: typeof MutationScopeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/initial-query-data': {
       id: '/initial-query-data'
       path: '/initial-query-data'
@@ -261,6 +281,7 @@ const rootRouteChildren: RootRouteChildren = {
   FetchingIndicatorsRoute: FetchingIndicatorsRoute,
   InfiniteQueriesRoute: InfiniteQueriesRoute,
   InitialQueryDataRoute: InitialQueryDataRoute,
+  MutationScopeRoute: MutationScopeRoute,
   PaginatedQueriesRoute: PaginatedQueriesRoute,
   ParallelQueriesDynamicRoute: ParallelQueriesDynamicRoute,
   ParallelQueriesManualRoute: ParallelQueriesManualRoute,

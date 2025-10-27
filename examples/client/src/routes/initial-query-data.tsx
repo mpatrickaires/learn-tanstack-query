@@ -206,14 +206,14 @@ function DataDisplay({
   query: DefinedUseQueryResult<string>;
   staleTime?: number;
 }) {
-  const { elapsedTimeInSeconds, reset } = useElapsedTime({
+  const { elapsedTimeInSeconds, resetElapsedTime } = useElapsedTime({
     clearOn: isStale,
     enabled: staleTime !== undefined,
     showMs: false,
   });
 
   useEffect(() => {
-    reset();
+    resetElapsedTime();
   }, [data]);
 
   return (

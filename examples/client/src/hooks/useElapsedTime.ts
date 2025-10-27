@@ -48,7 +48,7 @@ export function useElapsedTime({
     }
   }
 
-  function reset() {
+  function resetElapsedTime() {
     if (isEnabled) {
       return;
     }
@@ -68,7 +68,7 @@ export function useElapsedTime({
 
   return {
     elapsedTimeInSeconds: `${elapsedTimeFormatted}s`,
-    reset,
+    resetElapsedTime,
   };
 }
 
