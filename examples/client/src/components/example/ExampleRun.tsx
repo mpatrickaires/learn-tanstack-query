@@ -22,7 +22,7 @@ export const ExampleRun = forwardRef(({ children }: Props, ref) => {
       <Button onClick={() => setExampleKey(Math.random())} variant="contained">
         Run
       </Button>
-      <hr />
+      <hr style={{ color: '#8489c0ff' }} />
       {exampleKey && <Box key={exampleKey}>{children}</Box>}
     </ExampleKeyProvider>
   );

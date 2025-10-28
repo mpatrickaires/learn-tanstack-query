@@ -1,5 +1,6 @@
 import express from 'express';
 import cors from 'cors';
+import bodyParser from 'body-parser';
 import { router as parallelQueriesManualRouter } from './routes/parallel-queries-manual.js';
 import { router as parallelQueriesDynamicRouter } from './routes/parallel-queries-dynamic.js';
 import { router as dedupingRouter } from './routes/deduping.js';
@@ -12,8 +13,12 @@ import { router as refetchOnMount } from './routes/refetch-on-mount.js';
 import { router as placeholderData } from './routes/placeholder-data.js';
 import { router as mutationScope } from './routes/mutation-scope.js';
 import { router as invalidateQueries } from './routes/invalidate-queries.js';
+import { router as invalidationsFromMutation } from './routes/invalidations-from-mutations.js';
 
 const app = express();
+
+// create application/json parser
+const jsonParser = bodyParser.json();
 
 // Disable cache to prevent unexpected behavior on examples
 app.use((req, res, next) => {
@@ -27,6 +32,7 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(bodyParser.json());
 app.use(cors());
 
 app.use('/parallel-queries-manual', parallelQueriesManualRouter);
@@ -41,5 +47,6 @@ app.use('/refetch-on-mount', refetchOnMount);
 app.use('/placeholder-data', placeholderData);
 app.use('/mutation-scope', mutationScope);
 app.use('/invalidate-queries', invalidateQueries);
+app.use('/invalidations-from-mutations', invalidationsFromMutation);
 
 app.listen(5000, () => console.log('Server running'));
