@@ -4,8 +4,8 @@ import { buildApi } from '../api';
 import { Box, Typography } from '@mui/material';
 import { useElapsedTime } from '../hooks/useElapsedTime';
 import { ExampleHeader } from '../components/example/ExampleHeader';
-import { useExampleKey } from '../contexts/exampleKeyContext';
 import { useEffect, useState } from 'react';
+import { useExampleKey } from '../hooks/useExampleKey';
 
 const api = buildApi('/deduping');
 
@@ -80,7 +80,9 @@ function ExampleDelayedComponent() {
   });
 
   useEffect(() => {
-    setTimeout(() => setIsQueryEnabled(true), 500);
+    setTimeout(() => {
+      setIsQueryEnabled(true);
+    }, 500);
   }, [exampleKey]);
 
   return (

@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { ExampleHeader } from '../components/example/ExampleHeader';
 import { buildApi } from '../api';
-import { useExampleKey } from '../contexts/exampleKeyContext';
+import { useExampleKey } from '../hooks/useExampleKey';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { useEffect, useState } from 'react';
 import {
@@ -61,7 +61,7 @@ function Example() {
 
   useEffect(() => {
     return () => {
-      api.post('/clear');
+      api.post('/clear').catch(console.error);
     };
   }, []);
 
@@ -76,8 +76,8 @@ function Example() {
       </Typography>
       {data && (
         <>
-          <Typography>Title: {data?.title}</Typography>
-          <Typography>Description: {data?.description}</Typography>
+          <Typography>Title: {data.title}</Typography>
+          <Typography>Description: {data.description}</Typography>
         </>
       )}
       <hr />
@@ -87,7 +87,9 @@ function Example() {
       </Typography>
       <Typography mb={2}>status: {status}</Typography>
       <FormControlLabel
-        onChange={(_, checked) => setInvalidateOnMutation(checked)}
+        onChange={(_, checked) => {
+          setInvalidateOnMutation(checked);
+        }}
         checked={invalidateOnMutation}
         control={<Switch />}
         label="Invalidate on mutation"
@@ -103,12 +105,16 @@ function Example() {
           <TextField
             label="Title"
             value={title}
-            onChange={e => setTitle(e.target.value)}
+            onChange={e => {
+              setTitle(e.target.value);
+            }}
           />
           <TextField
             label="Description"
             value={description}
-            onChange={e => setDescription(e.target.value)}
+            onChange={e => {
+              setDescription(e.target.value);
+            }}
           />
           <Button type="submit">Mutate</Button>
         </Box>
@@ -117,7 +123,7 @@ function Example() {
   );
 }
 
-type Todo = {
+interface Todo {
   title: string;
   description: string;
-};
+}

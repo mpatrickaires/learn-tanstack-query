@@ -13,7 +13,7 @@ import { useState } from 'react';
 import { buildApi } from '../api';
 import { ExampleHeader } from '../components/example/ExampleHeader';
 import { ExampleSections } from '../components/example/ExampleSections';
-import { useExampleKey } from '../contexts/exampleKeyContext';
+import { useExampleKey } from '../hooks/useExampleKey';
 
 const api = buildApi('/placeholder-data');
 
@@ -72,7 +72,9 @@ function Example() {
                     <ListItem key={title}>
                       <ListItemButton
                         selected={id === movieId}
-                        onClick={() => setMovieId(id)}
+                        onClick={() => {
+                          setMovieId(id);
+                        }}
                       >
                         <ListItemText primary={title} secondary={releaseDate} />
                       </ListItemButton>
@@ -87,10 +89,10 @@ function Example() {
             show: !!movieDetails,
             render: (
               <>
-                <MovieDetail label="Title" data={movieDetails?.title || ''} />
+                <MovieDetail label="Title" data={movieDetails?.title ?? ''} />
                 <MovieDetail
                   label="Release Date"
-                  data={movieDetails?.releaseDate || ''}
+                  data={movieDetails?.releaseDate ?? ''}
                 />
                 {isPlaceholderData ? (
                   <>
@@ -101,11 +103,11 @@ function Example() {
                   <>
                     <MovieDetail
                       label="Director"
-                      data={movieDetails?.director || ''}
+                      data={movieDetails?.director ?? ''}
                     />
                     <MovieDetail
                       label="Synopsis"
-                      data={movieDetails?.synopsis || ''}
+                      data={movieDetails?.synopsis ?? ''}
                     />
                   </>
                 )}
@@ -147,12 +149,12 @@ function movieDetailsQueryOptions(movieId: number | null, exampleKey: number) {
   });
 }
 
-type Movie = {
+interface Movie {
   id: number;
   title: string;
   releaseDate: string;
   director: string;
   synopsis: string;
-};
+}
 
-type MovieList = Array<Pick<Movie, 'id' | 'title' | 'releaseDate'>>;
+type MovieList = Pick<Movie, 'id' | 'title' | 'releaseDate'>[];

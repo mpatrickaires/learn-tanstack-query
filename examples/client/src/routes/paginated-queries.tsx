@@ -9,7 +9,7 @@ import { useEffect, useState, type Dispatch, type SetStateAction } from 'react';
 import { buildApi } from '../api';
 import { ExampleHeader } from '../components/example/ExampleHeader';
 import { ExampleSections } from '../components/example/ExampleSections';
-import { useExampleKey } from '../contexts/exampleKeyContext';
+import { useExampleKey } from '../hooks/useExampleKey';
 import { minutesToMs } from '../utils';
 
 const api = buildApi('/paginated-queries');
@@ -56,7 +56,9 @@ function Example() {
   const queryClient = useQueryClient();
   useEffect(() => {
     // Clear cache when rerunning the example
-    return () => queryClient.removeQueries({ queryKey: [paginatedQueryKey] });
+    return () => {
+      queryClient.removeQueries({ queryKey: [paginatedQueryKey] });
+    };
   }, []);
 
   const [page, setPage] = useState(1);

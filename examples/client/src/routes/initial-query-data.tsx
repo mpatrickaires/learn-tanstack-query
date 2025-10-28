@@ -11,7 +11,7 @@ import { useEffect, useMemo, useState, type PropsWithChildren } from 'react';
 import { buildApi } from '../api';
 import { ExampleHeaderTab } from '../components/example/ExampleHeaderTab';
 import { ExampleSections } from '../components/example/ExampleSections';
-import { useExampleKey } from '../contexts/exampleKeyContext';
+import { useExampleKey } from '../hooks/useExampleKey';
 import { useElapsedTime } from '../hooks/useElapsedTime';
 import {
   formatTime,
@@ -146,7 +146,7 @@ function InitialDataFromCacheExample() {
       <Box>
         <Typography variant="h6">Items query:</Typography>
         {items?.map(({ label }) => (
-          <Typography>- {label}</Typography>
+          <Typography key={label}>- {label}</Typography>
         ))}
       </Box>
       <hr />
@@ -252,13 +252,13 @@ function initialDataFromCacheQueryOptions(exampleKey: number) {
     queryKey: ['initialQueryData', 'initialDataFromCache', exampleKey],
     queryFn: () =>
       api
-        .get<Array<InitialDataFromCacheResponse>>('/initial-data-from-cache/0')
+        .get<InitialDataFromCacheResponse[]>('/initial-data-from-cache/0')
         .then(r => r.data),
   });
 }
 
-type InitialDataFromCacheResponse = {
+interface InitialDataFromCacheResponse {
   id: number;
   label: string;
   description: string;
-};
+}

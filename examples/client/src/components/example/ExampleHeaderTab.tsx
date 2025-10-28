@@ -11,7 +11,14 @@ export function ExampleHeaderTab({ tabs, docsUrl }: Props) {
   return (
     <Box>
       <ExampleTitle docsUrl={docsUrl} />
-      <Tabs value={tabValue} onChange={(_, value) => setTabValue(value)}>
+      <Tabs
+        value={tabValue}
+        onChange={(_, value) => {
+          if (typeof value === 'number') {
+            setTabValue(value);
+          }
+        }}
+      >
         {tabs.map(({ label }, i) => (
           <Tab
             label={label}
@@ -39,10 +46,6 @@ function TabRender({
     return tab;
   }, [tabs, tabValue]);
 
-  if (!tab) {
-    throw new Error(`No tab found for tabValue '${tabValue}'`);
-  }
-
   return (
     <Box mt={2}>
       <ExampleDescription description={tab.description} />
@@ -51,11 +54,11 @@ function TabRender({
   );
 }
 
-type Props = {
-  tabs: Array<{
+interface Props {
+  tabs: {
     label: string;
     description: string;
     render: JSX.Element;
-  }>;
+  }[];
   docsUrl: string;
-};
+}

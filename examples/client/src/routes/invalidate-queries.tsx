@@ -11,7 +11,7 @@ import { useEffect, useState } from 'react';
 import { buildApi } from '../api';
 import { ExampleHeader } from '../components/example/ExampleHeader';
 import { ExampleSections } from '../components/example/ExampleSections';
-import { useExampleKey } from '../contexts/exampleKeyContext';
+import { useExampleKey } from '../hooks/useExampleKey';
 
 const api = buildApi('/invalidate-queries');
 
@@ -38,24 +38,30 @@ function Example() {
 
   useEffect(() => {
     // Clear cache manually on unmount because the gcTime is Infinity
-    return () => queryClient.removeQueries();
+    return () => {
+      queryClient.removeQueries();
+    };
   }, []);
 
   return (
     <>
       <FormControlLabel
-        onChange={(_, checked) => setShowComponentB(checked)}
+        onChange={(_, checked) => {
+          setShowComponentB(checked);
+        }}
         checked={showComponentB}
         control={<Switch />}
         label="Show Component B"
         sx={{ display: 'block' }}
       />
       <Button
-        onClick={() =>
-          queryClient.invalidateQueries({
-            queryKey: ['invalidateQueries'],
-          })
-        }
+        onClick={() => {
+          queryClient
+            .invalidateQueries({
+              queryKey: ['invalidateQueries'],
+            })
+            .catch(console.error);
+        }}
       >
         Invalidate Queries
       </Button>

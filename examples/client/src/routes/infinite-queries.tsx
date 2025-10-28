@@ -9,7 +9,7 @@ import { useEffect, useRef, useState } from 'react';
 import { buildApi } from '../api';
 import { ExampleHeaderTab } from '../components/example/ExampleHeaderTab';
 import { ExampleSections } from '../components/example/ExampleSections';
-import { useExampleKey } from '../contexts/exampleKeyContext';
+import { useExampleKey } from '../hooks/useExampleKey';
 import { useOnScroll } from '../hooks/useOnScroll';
 
 const api = buildApi('/infinite-queries');
@@ -128,8 +128,8 @@ function SequentialRefetchExample() {
   });
 
   useEffect(() => {
-    if (!isFetchingNextPage && data && data?.pages.length < 3) {
-      fetchNextPage();
+    if (!isFetchingNextPage && data && data.pages.length < 3) {
+      fetchNextPage().catch(console.error);
     }
   }, [isFetchingNextPage, data, fetchNextPage]);
 
@@ -142,7 +142,7 @@ function SequentialRefetchExample() {
       <Button
         onClick={() => {
           if (!isFetching) {
-            refetch();
+            refetch().catch(console.error);
           }
         }}
       >
@@ -220,7 +220,7 @@ function InfiniteScroll({
   },
   cancelRefetch,
 }: {
-  query: UseInfiniteQueryResult<InfiniteData<ApiData, unknown>>;
+  query: UseInfiniteQueryResult<InfiniteData<ApiData>>;
   cancelRefetch: boolean;
 }) {
   const ref = useRef<HTMLElement | null>(null);
@@ -267,7 +267,7 @@ function InfiniteScroll({
   );
 }
 
-type ApiData = {
+interface ApiData {
   page: number;
   result: string[];
-};
+}

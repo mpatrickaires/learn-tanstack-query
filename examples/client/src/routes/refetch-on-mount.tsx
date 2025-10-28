@@ -4,7 +4,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
 import { buildApi } from '../api';
 import { ExampleHeader } from '../components/example/ExampleHeader';
-import { useExampleKey } from '../contexts/exampleKeyContext';
+import { useExampleKey } from '../hooks/useExampleKey';
 
 const api = buildApi('/refetch-on-mount');
 

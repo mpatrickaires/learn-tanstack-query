@@ -1,7 +1,7 @@
 import { createFileRoute } from '@tanstack/react-router';
 import { buildApi } from '../api';
 import { useQuery } from '@tanstack/react-query';
-import { useExampleKey } from '../contexts/exampleKeyContext';
+import { useExampleKey } from '../hooks/useExampleKey';
 import { Button, Typography } from '@mui/material';
 import { ExampleHeader } from '../components/example/ExampleHeader';
 
@@ -33,7 +33,12 @@ function Example() {
 
   return (
     <>
-      <Button onClick={() => refetch()} variant="outlined">
+      <Button
+        onClick={() => {
+          refetch().catch(console.error);
+        }}
+        variant="outlined"
+      >
         Refetch
       </Button>
       <Typography visibility={isPending ? 'visible' : 'hidden'}>

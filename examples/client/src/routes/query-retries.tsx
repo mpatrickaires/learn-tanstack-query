@@ -1,7 +1,7 @@
 import { useQuery } from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 import { buildApi } from '../api';
-import { useExampleKey } from '../contexts/exampleKeyContext';
+import { useExampleKey } from '../hooks/useExampleKey';
 import { useState } from 'react';
 import { ExampleHeader } from '../components/example/ExampleHeader';
 import { Typography } from '@mui/material';

@@ -49,7 +49,7 @@ function Example() {
         <List>
           <Typography fontWeight="bold">Users</Typography>
           {userNameQueries.map(({ data }) => (
-            <ListItem>
+            <ListItem key={data}>
               <Typography>- {data}</Typography>
             </ListItem>
           ))}

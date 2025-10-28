@@ -1,6 +1,6 @@
 import type { JSX } from '@emotion/react/jsx-runtime';
 import { Box, Typography } from '@mui/material';
-import type { ComponentPropsWithoutRef } from 'react';
+import { Fragment, type ComponentPropsWithoutRef } from 'react';
 import { VerticalSeparator } from '../VerticalSeparator';
 
 export function ExampleSections({ titleProps, ...props }: Props) {
@@ -9,7 +9,7 @@ export function ExampleSections({ titleProps, ...props }: Props) {
   return (
     <Box display="flex" gap={2}>
       {sections.map(({ title, render }, i) => (
-        <>
+        <Fragment key={title}>
           <Box>
             {title && (
               <Typography variant="h6" mb={2} {...titleProps}>
@@ -19,17 +19,17 @@ export function ExampleSections({ titleProps, ...props }: Props) {
             {render}
           </Box>
           {i + 1 < sections.length && <VerticalSeparator />}
-        </>
+        </Fragment>
       ))}
     </Box>
   );
 }
 
-type Props = {
-  sections: Array<{
+interface Props {
+  sections: {
     title?: string;
     render: JSX.Element;
     show?: boolean;
-  }>;
+  }[];
   titleProps?: ComponentPropsWithoutRef<typeof Typography>;
-};
+}

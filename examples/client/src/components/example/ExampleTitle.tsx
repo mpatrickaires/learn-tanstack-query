@@ -24,6 +24,6 @@ export function ExampleTitle({ docsUrl }: Props) {
   );
 }
 
-type Props = {
+interface Props {
   docsUrl: string;
-};
+}

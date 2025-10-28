@@ -13,6 +13,6 @@ export function ExampleDescription({ description }: Props) {
   );
 }
 
-type Props = {
+interface Props {
   description: string;
-};
+}

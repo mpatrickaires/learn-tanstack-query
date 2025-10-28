@@ -43,8 +43,9 @@ export const Root = () => {
   const { flatRoutes } = useRouter();
   const location = useLocation();
 
-  const allPaths: string[] = (flatRoutes.map(({ path }) => path) as string[])
-    .filter(path => path !== '/')
+  const allPaths: string[] = flatRoutes
+    .map(({ path }) => (typeof path === 'string' ? path : ''))
+    .filter(path => path !== '' && path !== '/')
     .sort();
 
   return (

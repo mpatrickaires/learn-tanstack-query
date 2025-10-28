@@ -2,7 +2,7 @@ import { createFileRoute } from '@tanstack/react-router';
 import { buildApi } from '../api';
 import { ExampleHeader } from '../components/example/ExampleHeader';
 import { useMutation } from '@tanstack/react-query';
-import { useExampleKey } from '../contexts/exampleKeyContext';
+import { useExampleKey } from '../hooks/useExampleKey';
 import { Box, Button, Typography } from '@mui/material';
 import { ExampleSections } from '../components/example/ExampleSections';
 import { useElapsedTime } from '../hooks/useElapsedTime';
