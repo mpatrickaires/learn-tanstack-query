@@ -42,6 +42,13 @@ function RouteComponent() {
             'This is the same principle of the "Via the UI" example, but is done using `useMutationState` for when there query and mutation components are different, which don\'t allow for the usage of the `variables` directly for `useMutation`.',
           render: <ExampleUseMutationState />,
         },
+        {
+          label: 'Via the cache',
+          description: `This is the same principle of the "Via the UI" example, but is done by directly altering the cache with the \`variables\` of the mutation inside the \`onMutate\` callback (which runs before the \`mutate\` function) and returning from it the value of the cache from before the optimistic update. The value returned from \`onMutate\` can be used on both \`onError\` and \`onSettled\` handlers of the \`useMutate\`, which allows us to fallback the cache data to the state before the optimistic update (returned from \`onMutate\`).
+            
+            A drawback from this usage is that we can't know if the data in the cache is from a optimistic update, and thus can't render it differently like in the "Via the UI" example (where it's light gray).`,
+          render: <ExampleViaTheCache />,
+        },
       ]}
       docsUrl="https://tanstack.com/query/latest/docs/framework/react/guides/optimistic-updates"
     />
@@ -215,6 +222,114 @@ function ExampleUseMutationState() {
 
     return (
       <Box>
+        <form
+          onSubmit={e => {
+            e.preventDefault();
+            if (title.trim() && !isPending) {
+              mutate({ title });
+              setTitle('');
+            }
+          }}
+        >
+          <Box display="flex" flexDirection="column" gap={2} maxWidth={250}>
+            <TextField
+              label="Title"
+              value={title}
+              onChange={e => {
+                setTitle(e.target.value);
+              }}
+              disabled={isPending}
+              sx={{ flexGrow: 1 }}
+            />
+            <Button type="submit" loading={isPending} sx={{ flexGrow: 1 }}>
+              Add
+            </Button>
+          </Box>
+        </form>
+      </Box>
+    );
+  }
+
+  return (
+    <Box>
+      <QueryComponent />
+      <hr />
+      <MutationComponent />
+    </Box>
+  );
+}
+
+function ExampleViaTheCache() {
+  const exampleKey = useExampleKey();
+  const queryMutationKey = ['optimisticUpdates', 'viaTheCache', exampleKey];
+
+  function QueryComponent() {
+    const { data, fetchStatus } = useQuery({
+      queryKey: queryMutationKey,
+      queryFn: () => api.get<string[]>('/').then(r => r.data),
+    });
+
+    return (
+      <Box>
+        <Typography fontSize={16} color="lightgray">
+          fetch status: {fetchStatus}
+        </Typography>
+        {data?.map(todo => (
+          <Typography key={todo}>- {todo}</Typography>
+        ))}
+      </Box>
+    );
+  }
+
+  function MutationComponent() {
+    const queryClient = useQueryClient();
+    const [title, setTitle] = useState('');
+    const [returnError, setReturnError] = useState(false);
+
+    const { isPending, mutate } = useMutation({
+      mutationKey: queryMutationKey,
+      mutationFn: (variables: { title: string }) =>
+        api.post(`?returnError=${returnError}`, variables),
+      onMutate: async newData => {
+        // Cancel any outgoing refetches (so they don't overwrite our optimistic update)
+        await queryClient.cancelQueries({ queryKey: queryMutationKey });
+
+        // Snapshot the previous value
+        const previousData = queryClient.getQueryData(queryMutationKey);
+
+        // Optimistically update to the new value
+        queryClient.setQueryData(queryMutationKey, (old: string) => [
+          ...old,
+          newData.title,
+        ]);
+
+        // Return a result with a snapshotted value
+        return { previousData };
+      },
+      // If the mutation fails, use the result returned from onMutate to roll back
+      onError: (_err, _newData, onMutateResult) => {
+        queryClient.setQueryData(
+          queryMutationKey,
+          onMutateResult?.previousData
+        );
+      },
+      // Always refetch after error or success
+      onSettled: (_data, _error, _variables, _onMutateResult) => {
+        queryClient.invalidateQueries({ queryKey: queryMutationKey });
+      },
+    });
+
+    return (
+      <Box>
+        <FormControlLabel
+          onChange={(_, checked) => {
+            setReturnError(checked);
+          }}
+          checked={returnError}
+          control={<Switch />}
+          label="Mutation return error"
+          disabled={isPending}
+        />
         <form
           onSubmit={e => {
             e.preventDefault();
