@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import { getTime, sleep } from '../utils.js';
+import { sleep } from '../utils.js';
 
 const router = Router();
 
