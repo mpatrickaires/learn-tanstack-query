@@ -3,7 +3,6 @@
     "body-parser": "^2.2.0"
   },
   "devDependencies": {
-    "eslint-plugin-react-dom": "^2.2.4",
-    "eslint-plugin-react-x": "^2.2.4"
+    "eslint-plugin-react-dom": "^2.2.4"
   }
 }
