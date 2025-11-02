@@ -6,7 +6,12 @@ import {
   TextField,
   Typography,
 } from '@mui/material';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import {
+  useMutation,
+  useMutationState,
+  useQuery,
+  useQueryClient,
+} from '@tanstack/react-query';
 import { createFileRoute } from '@tanstack/react-router';
 import { useEffect, useState } from 'react';
 import { buildApi } from '../api';
@@ -25,11 +30,17 @@ function RouteComponent() {
     <ExampleHeaderTab
       tabs={[
         {
+          label: 'Via the UI',
           description: `By using the data sent through the mutation, you can optimistically update by showing the data before even knowing if the mutation was successful and without having to wait for the server to return it. In the example below, while the mutation is pending, a light gray item will be shown in the list after being added, which means it was updated optimistically, and will be shown normally after being fetched by the query (observe the "mutation status" and "fetch status").
           
           You can also handle error status, such as if you toggle "Mutation return error", the API will return an error for the mutation and the data will be shown as red and with a "Retry" button, which can be used to retry the mutation on the optimistically updated data (do untoggle the "Mutation return error" for it to work)`,
-          label: 'Via the UI',
           render: <ExampleViaTheUI />,
+        },
+        {
+          label: 'useMutationState',
+          description:
+            'This is the same principle of the "Via the UI" example, but is done using `useMutationState` for when there query and mutation components are different, which don\'t allow for the usage of the `variables` directly for `useMutation`.',
+          render: <ExampleUseMutationState />,
         },
       ]}
       docsUrl="https://tanstack.com/query/latest/docs/framework/react/guides/optimistic-updates"
@@ -41,13 +52,6 @@ function ExampleViaTheUI() {
   const exampleKey = useExampleKey();
   const [title, setTitle] = useState('');
   const [returnError, setReturnError] = useState(false);
-
-  useEffect(() => {
-    api.post('/clear').catch(console.error);
-    return () => {
-      api.post('/clear').catch(console.error);
-    };
-  }, []);
 
   const queryMutationKey = ['optimisticUpdates', 'viaTheUI', exampleKey];
 
@@ -73,6 +77,13 @@ function ExampleViaTheUI() {
       await refetch();
     },
   });
+
+  useEffect(() => {
+    api.post('/clear').catch(console.error);
+    return () => {
+      api.post('/clear').catch(console.error);
+    };
+  }, []);
 
   return (
     <Box>
@@ -139,6 +150,104 @@ function ExampleViaTheUI() {
           </Button>
         </Box>
       </form>
+    </Box>
+  );
+}
+
+function ExampleUseMutationState() {
+  const exampleKey = useExampleKey();
+
+  const queryMutationKey = [
+    'optimisticUpdates',
+    'useMutationState',
+    exampleKey,
+  ];
+
+  useEffect(() => {
+    api.post('/clear').catch(console.error);
+    return () => {
+      api.post('/clear').catch(console.error);
+    };
+  }, []);
+
+  function QueryComponent() {
+    const { data, fetchStatus } = useQuery({
+      queryKey: queryMutationKey,
+      queryFn: () => api.get<string[]>('/').then(r => r.data),
+    });
+
+    // useMutationState return an array of mutations that match the filter
+    const mutation = useMutationState({
+      filters: { mutationKey: queryMutationKey, status: 'pending' },
+    })[0];
+
+    return (
+      <Box>
+        <Typography fontSize={16} color="lightgray">
+          mutation ongoing: {Boolean(mutation).toString()}
+        </Typography>
+        <Typography fontSize={16} color="lightgray">
+          fetch status: {fetchStatus}
+        </Typography>
+        {data?.map(todo => (
+          <Typography key={todo}>- {todo}</Typography>
+        ))}
+        {mutation && (
+          <Typography sx={{ opacity: 0.5 }}>
+            - {(mutation.variables as { title: string }).title}
+          </Typography>
+        )}
+      </Box>
+    );
+  }
+
+  function MutationComponent() {
+    const queryClient = useQueryClient();
+    const [title, setTitle] = useState('');
+
+    const { isPending, mutate } = useMutation({
+      mutationKey: queryMutationKey,
+      mutationFn: (variables: { title: string }) => api.post('/', variables),
+      onSuccess: async () => {
+        await queryClient.invalidateQueries({ queryKey: queryMutationKey });
+      },
+    });
+
+    return (
+      <Box>
+        <form
+          onSubmit={e => {
+            e.preventDefault();
+            if (title.trim() && !isPending) {
+              mutate({ title });
+              setTitle('');
+            }
+          }}
+        >
+          <Box display="flex" flexDirection="column" gap={2} maxWidth={250}>
+            <TextField
+              label="Title"
+              value={title}
+              onChange={e => {
+                setTitle(e.target.value);
+              }}
+              disabled={isPending}
+              sx={{ flexGrow: 1 }}
+            />
+            <Button type="submit" loading={isPending} sx={{ flexGrow: 1 }}>
+              Add
+            </Button>
+          </Box>
+        </form>
+      </Box>
+    );
+  }
+
+  return (
+    <Box>
+      <QueryComponent />
+      <hr />
+      <MutationComponent />
     </Box>
   );
 }
