@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as RefetchOnMountRouteImport } from './routes/refetch-on-mount'
 import { Route as QueryRetriesRouteImport } from './routes/query-retries'
+import { Route as QueryCancellationRouteImport } from './routes/query-cancellation'
 import { Route as PlaceholderDataRouteImport } from './routes/placeholder-data'
 import { Route as ParallelQueriesManualRouteImport } from './routes/parallel-queries-manual'
 import { Route as ParallelQueriesDynamicRouteImport } from './routes/parallel-queries-dynamic'
@@ -33,6 +34,11 @@ const RefetchOnMountRoute = RefetchOnMountRouteImport.update({
 const QueryRetriesRoute = QueryRetriesRouteImport.update({
   id: '/query-retries',
   path: '/query-retries',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const QueryCancellationRoute = QueryCancellationRouteImport.update({
+  id: '/query-cancellation',
+  path: '/query-cancellation',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PlaceholderDataRoute = PlaceholderDataRouteImport.update({
@@ -116,6 +122,7 @@ export interface FileRoutesByFullPath {
   '/parallel-queries-dynamic': typeof ParallelQueriesDynamicRoute
   '/parallel-queries-manual': typeof ParallelQueriesManualRoute
   '/placeholder-data': typeof PlaceholderDataRoute
+  '/query-cancellation': typeof QueryCancellationRoute
   '/query-retries': typeof QueryRetriesRoute
   '/refetch-on-mount': typeof RefetchOnMountRoute
 }
@@ -133,6 +140,7 @@ export interface FileRoutesByTo {
   '/parallel-queries-dynamic': typeof ParallelQueriesDynamicRoute
   '/parallel-queries-manual': typeof ParallelQueriesManualRoute
   '/placeholder-data': typeof PlaceholderDataRoute
+  '/query-cancellation': typeof QueryCancellationRoute
   '/query-retries': typeof QueryRetriesRoute
   '/refetch-on-mount': typeof RefetchOnMountRoute
 }
@@ -151,6 +159,7 @@ export interface FileRoutesById {
   '/parallel-queries-dynamic': typeof ParallelQueriesDynamicRoute
   '/parallel-queries-manual': typeof ParallelQueriesManualRoute
   '/placeholder-data': typeof PlaceholderDataRoute
+  '/query-cancellation': typeof QueryCancellationRoute
   '/query-retries': typeof QueryRetriesRoute
   '/refetch-on-mount': typeof RefetchOnMountRoute
 }
@@ -170,6 +179,7 @@ export interface FileRouteTypes {
     | '/parallel-queries-dynamic'
     | '/parallel-queries-manual'
     | '/placeholder-data'
+    | '/query-cancellation'
     | '/query-retries'
     | '/refetch-on-mount'
   fileRoutesByTo: FileRoutesByTo
@@ -187,6 +197,7 @@ export interface FileRouteTypes {
     | '/parallel-queries-dynamic'
     | '/parallel-queries-manual'
     | '/placeholder-data'
+    | '/query-cancellation'
     | '/query-retries'
     | '/refetch-on-mount'
   id:
@@ -204,6 +215,7 @@ export interface FileRouteTypes {
     | '/parallel-queries-dynamic'
     | '/parallel-queries-manual'
     | '/placeholder-data'
+    | '/query-cancellation'
     | '/query-retries'
     | '/refetch-on-mount'
   fileRoutesById: FileRoutesById
@@ -222,6 +234,7 @@ export interface RootRouteChildren {
   ParallelQueriesDynamicRoute: typeof ParallelQueriesDynamicRoute
   ParallelQueriesManualRoute: typeof ParallelQueriesManualRoute
   PlaceholderDataRoute: typeof PlaceholderDataRoute
+  QueryCancellationRoute: typeof QueryCancellationRoute
   QueryRetriesRoute: typeof QueryRetriesRoute
   RefetchOnMountRoute: typeof RefetchOnMountRoute
 }
@@ -240,6 +253,13 @@ declare module '@tanstack/react-router' {
       path: '/query-retries'
       fullPath: '/query-retries'
       preLoaderRoute: typeof QueryRetriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/query-cancellation': {
+      id: '/query-cancellation'
+      path: '/query-cancellation'
+      fullPath: '/query-cancellation'
+      preLoaderRoute: typeof QueryCancellationRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/placeholder-data': {
@@ -350,6 +370,7 @@ const rootRouteChildren: RootRouteChildren = {
   ParallelQueriesDynamicRoute: ParallelQueriesDynamicRoute,
   ParallelQueriesManualRoute: ParallelQueriesManualRoute,
   PlaceholderDataRoute: PlaceholderDataRoute,
+  QueryCancellationRoute: QueryCancellationRoute,
   QueryRetriesRoute: QueryRetriesRoute,
   RefetchOnMountRoute: RefetchOnMountRoute,
 }

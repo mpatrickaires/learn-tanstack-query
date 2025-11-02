@@ -15,11 +15,9 @@ import { router as mutationScope } from './routes/mutation-scope.js';
 import { router as invalidateQueries } from './routes/invalidate-queries.js';
 import { router as invalidationsFromMutation } from './routes/invalidations-from-mutations.js';
 import { router as optimisticUpdates } from './routes/optimistic-updates.js';
+import { router as queryCancellation } from './routes/query-cancellation.js';
 
 const app = express();
-
-// create application/json parser
-const jsonParser = bodyParser.json();
 
 // Disable cache to prevent unexpected behavior on examples
 app.use((req, res, next) => {
@@ -50,5 +48,6 @@ app.use('/mutation-scope', mutationScope);
 app.use('/invalidate-queries', invalidateQueries);
 app.use('/invalidations-from-mutations', invalidationsFromMutation);
 app.use('/optimistic-updates', optimisticUpdates);
+app.use('/query-cancellation', queryCancellation);
 
 app.listen(5000, () => console.log('Server running'));
