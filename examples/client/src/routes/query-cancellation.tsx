@@ -22,6 +22,12 @@ function RouteComponent() {
             'By default, queries that are unmounted before their promises on `queryFn` are resolved are not cancelled, and instead the data on the cache is updated once the promise resolves. However, we can change this behavior, as in the example below, where the component will be unmounted as soon as you click on "Refetch", and when mounted back after 1s the data will still be the old one from when it was mounted. You can also see the request cancelled through DevTools Network.',
           render: <ExampleCancelOnUnmount />,
         },
+        {
+          label: 'Cancel manually',
+          description:
+            'A query can be cancelled manually by the user. In the example below, if you trigger the refetch, it can be cancelled by clicking on "Cancel query", which will make it stop the request.',
+          render: <ExampleCancelManually />,
+        },
       ]}
       docsUrl="https://tanstack.com/query/latest/docs/framework/react/guides/query-cancellation"
     />
@@ -95,6 +101,62 @@ function ExampleCancelOnUnmount() {
           />
         )}
       </Typography>
+    </Box>
+  );
+}
+
+function ExampleCancelManually() {
+  const exampleKey = useExampleKey();
+  const queryClient = useQueryClient();
+
+  const [isInitialData, setIsInitialData] = useState(true);
+
+  const { data, fetchStatus, refetch } = useQuery({
+    queryKey: ['queryCancellation', 'cancelManually', exampleKey],
+    queryFn: async ({ signal }) => {
+      const response = await api.get<string>(
+        `?isInitialData=${isInitialData}`,
+        { signal }
+      );
+
+      setIsInitialData(false);
+
+      return response.data;
+    },
+    staleTime: Infinity,
+  });
+
+  return (
+    <Box>
+      <Typography>fetch status: {fetchStatus}</Typography>
+      <Typography>{data}</Typography>
+      <Box
+        display="flex"
+        flexDirection="column"
+        gap={2}
+        sx={{
+          '& *': {
+            minWidth: 0,
+            width: 200,
+          },
+        }}
+      >
+        <Button
+          onClick={() => {
+            refetch().catch(console.error);
+          }}
+        >
+          Refetch
+        </Button>
+        <Button
+          onClick={() => {
+            queryClient.cancelQueries().catch(console.error);
+          }}
+          disabled={fetchStatus !== 'fetching'}
+        >
+          Cancel query
+        </Button>
+      </Box>
     </Box>
   );
 }
