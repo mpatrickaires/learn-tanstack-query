@@ -15,6 +15,7 @@ import { Route as PlaceholderDataRouteImport } from './routes/placeholder-data'
 import { Route as ParallelQueriesManualRouteImport } from './routes/parallel-queries-manual'
 import { Route as ParallelQueriesDynamicRouteImport } from './routes/parallel-queries-dynamic'
 import { Route as PaginatedQueriesRouteImport } from './routes/paginated-queries'
+import { Route as OptimisticUpdatesRouteImport } from './routes/optimistic-updates'
 import { Route as MutationScopeRouteImport } from './routes/mutation-scope'
 import { Route as InvalidationsFromMutationsRouteImport } from './routes/invalidations-from-mutations'
 import { Route as InvalidateQueriesRouteImport } from './routes/invalidate-queries'
@@ -52,6 +53,11 @@ const ParallelQueriesDynamicRoute = ParallelQueriesDynamicRouteImport.update({
 const PaginatedQueriesRoute = PaginatedQueriesRouteImport.update({
   id: '/paginated-queries',
   path: '/paginated-queries',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OptimisticUpdatesRoute = OptimisticUpdatesRouteImport.update({
+  id: '/optimistic-updates',
+  path: '/optimistic-updates',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MutationScopeRoute = MutationScopeRouteImport.update({
@@ -105,6 +111,7 @@ export interface FileRoutesByFullPath {
   '/invalidate-queries': typeof InvalidateQueriesRoute
   '/invalidations-from-mutations': typeof InvalidationsFromMutationsRoute
   '/mutation-scope': typeof MutationScopeRoute
+  '/optimistic-updates': typeof OptimisticUpdatesRoute
   '/paginated-queries': typeof PaginatedQueriesRoute
   '/parallel-queries-dynamic': typeof ParallelQueriesDynamicRoute
   '/parallel-queries-manual': typeof ParallelQueriesManualRoute
@@ -121,6 +128,7 @@ export interface FileRoutesByTo {
   '/invalidate-queries': typeof InvalidateQueriesRoute
   '/invalidations-from-mutations': typeof InvalidationsFromMutationsRoute
   '/mutation-scope': typeof MutationScopeRoute
+  '/optimistic-updates': typeof OptimisticUpdatesRoute
   '/paginated-queries': typeof PaginatedQueriesRoute
   '/parallel-queries-dynamic': typeof ParallelQueriesDynamicRoute
   '/parallel-queries-manual': typeof ParallelQueriesManualRoute
@@ -138,6 +146,7 @@ export interface FileRoutesById {
   '/invalidate-queries': typeof InvalidateQueriesRoute
   '/invalidations-from-mutations': typeof InvalidationsFromMutationsRoute
   '/mutation-scope': typeof MutationScopeRoute
+  '/optimistic-updates': typeof OptimisticUpdatesRoute
   '/paginated-queries': typeof PaginatedQueriesRoute
   '/parallel-queries-dynamic': typeof ParallelQueriesDynamicRoute
   '/parallel-queries-manual': typeof ParallelQueriesManualRoute
@@ -156,6 +165,7 @@ export interface FileRouteTypes {
     | '/invalidate-queries'
     | '/invalidations-from-mutations'
     | '/mutation-scope'
+    | '/optimistic-updates'
     | '/paginated-queries'
     | '/parallel-queries-dynamic'
     | '/parallel-queries-manual'
@@ -172,6 +182,7 @@ export interface FileRouteTypes {
     | '/invalidate-queries'
     | '/invalidations-from-mutations'
     | '/mutation-scope'
+    | '/optimistic-updates'
     | '/paginated-queries'
     | '/parallel-queries-dynamic'
     | '/parallel-queries-manual'
@@ -188,6 +199,7 @@ export interface FileRouteTypes {
     | '/invalidate-queries'
     | '/invalidations-from-mutations'
     | '/mutation-scope'
+    | '/optimistic-updates'
     | '/paginated-queries'
     | '/parallel-queries-dynamic'
     | '/parallel-queries-manual'
@@ -205,6 +217,7 @@ export interface RootRouteChildren {
   InvalidateQueriesRoute: typeof InvalidateQueriesRoute
   InvalidationsFromMutationsRoute: typeof InvalidationsFromMutationsRoute
   MutationScopeRoute: typeof MutationScopeRoute
+  OptimisticUpdatesRoute: typeof OptimisticUpdatesRoute
   PaginatedQueriesRoute: typeof PaginatedQueriesRoute
   ParallelQueriesDynamicRoute: typeof ParallelQueriesDynamicRoute
   ParallelQueriesManualRoute: typeof ParallelQueriesManualRoute
@@ -255,6 +268,13 @@ declare module '@tanstack/react-router' {
       path: '/paginated-queries'
       fullPath: '/paginated-queries'
       preLoaderRoute: typeof PaginatedQueriesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/optimistic-updates': {
+      id: '/optimistic-updates'
+      path: '/optimistic-updates'
+      fullPath: '/optimistic-updates'
+      preLoaderRoute: typeof OptimisticUpdatesRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/mutation-scope': {
@@ -325,6 +345,7 @@ const rootRouteChildren: RootRouteChildren = {
   InvalidateQueriesRoute: InvalidateQueriesRoute,
   InvalidationsFromMutationsRoute: InvalidationsFromMutationsRoute,
   MutationScopeRoute: MutationScopeRoute,
+  OptimisticUpdatesRoute: OptimisticUpdatesRoute,
   PaginatedQueriesRoute: PaginatedQueriesRoute,
   ParallelQueriesDynamicRoute: ParallelQueriesDynamicRoute,
   ParallelQueriesManualRoute: ParallelQueriesManualRoute,

@@ -14,6 +14,7 @@ import { router as placeholderData } from './routes/placeholder-data.js';
 import { router as mutationScope } from './routes/mutation-scope.js';
 import { router as invalidateQueries } from './routes/invalidate-queries.js';
 import { router as invalidationsFromMutation } from './routes/invalidations-from-mutations.js';
+import { router as optimisticUpdates } from './routes/optimistic-updates.js';
 
 const app = express();
 
@@ -48,5 +49,6 @@ app.use('/placeholder-data', placeholderData);
 app.use('/mutation-scope', mutationScope);
 app.use('/invalidate-queries', invalidateQueries);
 app.use('/invalidations-from-mutations', invalidationsFromMutation);
+app.use('/optimistic-updates', optimisticUpdates);
 
 app.listen(5000, () => console.log('Server running'));

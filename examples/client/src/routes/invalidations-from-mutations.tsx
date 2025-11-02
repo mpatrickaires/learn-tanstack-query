@@ -60,6 +60,7 @@ function Example() {
   });
 
   useEffect(() => {
+    api.post('/clear').catch(console.error);
     return () => {
       api.post('/clear').catch(console.error);
     };
