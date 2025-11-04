@@ -1,5 +1,6 @@
 import { Box, Button } from '@mui/material';
 import {
+  useEffect,
   useImperativeHandle,
   useState,
   type PropsWithChildren,
@@ -9,8 +10,9 @@ import { ExampleKeyProvider } from '../../contexts/exampleKey/provider';
 
 export function ExampleRun({
   ref,
+  autoRun,
   children,
-}: PropsWithChildren<{ ref: Ref<unknown> }>) {
+}: PropsWithChildren<{ ref?: Ref<unknown>; autoRun?: boolean }>) {
   const [exampleKey, setExampleKey] = useState<number | null>(null);
   useImperativeHandle(
     ref,
@@ -22,16 +24,24 @@ export function ExampleRun({
       }) satisfies ExampleRunRef
   );
 
+  useEffect(() => {
+    if (autoRun) {
+      setExampleKey(Math.random());
+    }
+  }, []);
+
   return (
     <ExampleKeyProvider exampleKey={exampleKey}>
-      <Button
-        onClick={() => {
-          setExampleKey(Math.random());
-        }}
-        variant="contained"
-      >
-        Run
-      </Button>
+      {!autoRun && (
+        <Button
+          onClick={() => {
+            setExampleKey(Math.random());
+          }}
+          variant="contained"
+        >
+          Run
+        </Button>
+      )}
       <hr style={{ color: '#8489c0ff' }} />
       {exampleKey && <Box key={exampleKey}>{children}</Box>}
     </ExampleKeyProvider>

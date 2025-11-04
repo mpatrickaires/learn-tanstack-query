@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as ScrollRestorationRouteImport } from './routes/scroll-restoration'
 import { Route as RefetchOnMountRouteImport } from './routes/refetch-on-mount'
 import { Route as QueryRetriesRouteImport } from './routes/query-retries'
 import { Route as QueryCancellationRouteImport } from './routes/query-cancellation'
@@ -26,6 +27,11 @@ import { Route as FetchingIndicatorsRouteImport } from './routes/fetching-indica
 import { Route as DedupingRouteImport } from './routes/deduping'
 import { Route as IndexRouteImport } from './routes/index'
 
+const ScrollRestorationRoute = ScrollRestorationRouteImport.update({
+  id: '/scroll-restoration',
+  path: '/scroll-restoration',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const RefetchOnMountRoute = RefetchOnMountRouteImport.update({
   id: '/refetch-on-mount',
   path: '/refetch-on-mount',
@@ -125,6 +131,7 @@ export interface FileRoutesByFullPath {
   '/query-cancellation': typeof QueryCancellationRoute
   '/query-retries': typeof QueryRetriesRoute
   '/refetch-on-mount': typeof RefetchOnMountRoute
+  '/scroll-restoration': typeof ScrollRestorationRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -143,6 +150,7 @@ export interface FileRoutesByTo {
   '/query-cancellation': typeof QueryCancellationRoute
   '/query-retries': typeof QueryRetriesRoute
   '/refetch-on-mount': typeof RefetchOnMountRoute
+  '/scroll-restoration': typeof ScrollRestorationRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -162,6 +170,7 @@ export interface FileRoutesById {
   '/query-cancellation': typeof QueryCancellationRoute
   '/query-retries': typeof QueryRetriesRoute
   '/refetch-on-mount': typeof RefetchOnMountRoute
+  '/scroll-restoration': typeof ScrollRestorationRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -182,6 +191,7 @@ export interface FileRouteTypes {
     | '/query-cancellation'
     | '/query-retries'
     | '/refetch-on-mount'
+    | '/scroll-restoration'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -200,6 +210,7 @@ export interface FileRouteTypes {
     | '/query-cancellation'
     | '/query-retries'
     | '/refetch-on-mount'
+    | '/scroll-restoration'
   id:
     | '__root__'
     | '/'
@@ -218,6 +229,7 @@ export interface FileRouteTypes {
     | '/query-cancellation'
     | '/query-retries'
     | '/refetch-on-mount'
+    | '/scroll-restoration'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -237,10 +249,18 @@ export interface RootRouteChildren {
   QueryCancellationRoute: typeof QueryCancellationRoute
   QueryRetriesRoute: typeof QueryRetriesRoute
   RefetchOnMountRoute: typeof RefetchOnMountRoute
+  ScrollRestorationRoute: typeof ScrollRestorationRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/scroll-restoration': {
+      id: '/scroll-restoration'
+      path: '/scroll-restoration'
+      fullPath: '/scroll-restoration'
+      preLoaderRoute: typeof ScrollRestorationRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/refetch-on-mount': {
       id: '/refetch-on-mount'
       path: '/refetch-on-mount'
@@ -373,6 +393,7 @@ const rootRouteChildren: RootRouteChildren = {
   QueryCancellationRoute: QueryCancellationRoute,
   QueryRetriesRoute: QueryRetriesRoute,
   RefetchOnMountRoute: RefetchOnMountRoute,
+  ScrollRestorationRoute: ScrollRestorationRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
