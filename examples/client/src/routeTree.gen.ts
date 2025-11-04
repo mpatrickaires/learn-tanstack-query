@@ -9,6 +9,7 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TrackedPropertiesRouteImport } from './routes/tracked-properties'
 import { Route as ScrollRestorationRouteImport } from './routes/scroll-restoration'
 import { Route as RefetchOnMountRouteImport } from './routes/refetch-on-mount'
 import { Route as QueryRetriesRouteImport } from './routes/query-retries'
@@ -27,6 +28,11 @@ import { Route as FetchingIndicatorsRouteImport } from './routes/fetching-indica
 import { Route as DedupingRouteImport } from './routes/deduping'
 import { Route as IndexRouteImport } from './routes/index'
 
+const TrackedPropertiesRoute = TrackedPropertiesRouteImport.update({
+  id: '/tracked-properties',
+  path: '/tracked-properties',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ScrollRestorationRoute = ScrollRestorationRouteImport.update({
   id: '/scroll-restoration',
   path: '/scroll-restoration',
@@ -132,6 +138,7 @@ export interface FileRoutesByFullPath {
   '/query-retries': typeof QueryRetriesRoute
   '/refetch-on-mount': typeof RefetchOnMountRoute
   '/scroll-restoration': typeof ScrollRestorationRoute
+  '/tracked-properties': typeof TrackedPropertiesRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -151,6 +158,7 @@ export interface FileRoutesByTo {
   '/query-retries': typeof QueryRetriesRoute
   '/refetch-on-mount': typeof RefetchOnMountRoute
   '/scroll-restoration': typeof ScrollRestorationRoute
+  '/tracked-properties': typeof TrackedPropertiesRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -171,6 +179,7 @@ export interface FileRoutesById {
   '/query-retries': typeof QueryRetriesRoute
   '/refetch-on-mount': typeof RefetchOnMountRoute
   '/scroll-restoration': typeof ScrollRestorationRoute
+  '/tracked-properties': typeof TrackedPropertiesRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -192,6 +201,7 @@ export interface FileRouteTypes {
     | '/query-retries'
     | '/refetch-on-mount'
     | '/scroll-restoration'
+    | '/tracked-properties'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -211,6 +221,7 @@ export interface FileRouteTypes {
     | '/query-retries'
     | '/refetch-on-mount'
     | '/scroll-restoration'
+    | '/tracked-properties'
   id:
     | '__root__'
     | '/'
@@ -230,6 +241,7 @@ export interface FileRouteTypes {
     | '/query-retries'
     | '/refetch-on-mount'
     | '/scroll-restoration'
+    | '/tracked-properties'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -250,10 +262,18 @@ export interface RootRouteChildren {
   QueryRetriesRoute: typeof QueryRetriesRoute
   RefetchOnMountRoute: typeof RefetchOnMountRoute
   ScrollRestorationRoute: typeof ScrollRestorationRoute
+  TrackedPropertiesRoute: typeof TrackedPropertiesRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/tracked-properties': {
+      id: '/tracked-properties'
+      path: '/tracked-properties'
+      fullPath: '/tracked-properties'
+      preLoaderRoute: typeof TrackedPropertiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/scroll-restoration': {
       id: '/scroll-restoration'
       path: '/scroll-restoration'
@@ -394,6 +414,7 @@ const rootRouteChildren: RootRouteChildren = {
   QueryRetriesRoute: QueryRetriesRoute,
   RefetchOnMountRoute: RefetchOnMountRoute,
   ScrollRestorationRoute: ScrollRestorationRoute,
+  TrackedPropertiesRoute: TrackedPropertiesRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

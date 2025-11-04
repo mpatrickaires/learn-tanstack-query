@@ -16,6 +16,7 @@ import { router as invalidateQueries } from './routes/invalidate-queries.js';
 import { router as invalidationsFromMutation } from './routes/invalidations-from-mutations.js';
 import { router as optimisticUpdates } from './routes/optimistic-updates.js';
 import { router as queryCancellation } from './routes/query-cancellation.js';
+import { router as trackedProperties } from './routes/tracked-properties.js';
 
 const app = express();
 
@@ -49,5 +50,6 @@ app.use('/invalidate-queries', invalidateQueries);
 app.use('/invalidations-from-mutations', invalidationsFromMutation);
 app.use('/optimistic-updates', optimisticUpdates);
 app.use('/query-cancellation', queryCancellation);
+app.use('/tracked-properties', trackedProperties);
 
 app.listen(5000, () => console.log('Server running'));
